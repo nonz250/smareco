@@ -1,0 +1,117 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.4-node-browsers
+    working_directory: ~/src
+    steps:
+      - checkout
+      - run:
+          name: Composer Self Update
+          command: sudo composer self-update
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "src/composer.lock" }}
+            - composer-v1-
+      - run:
+          name: Composer Install
+          command: cd ./src && ls -al && sudo composer install -n --no-dev --prefer-dist && ls -al
+      - save_cache:
+          key: composer-v1-{{ checksum "src/composer.lock" }}
+          paths:
+            - vendor
+      - run:
+          name: Npm Version
+          command: npm --version
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "src/package-lock.json" }}
+            - node-v1-
+      - run:
+          name: Npm Install
+          command: cd ./src && ls -al && npm i && npm run prod
+      - save_cache:
+          key: node-v1-{{ checksum "src/package-lock.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Create Workspace
+          command: mkdir -p /tmp/workspace
+      - run:
+          name: Source Compression
+          command: tar -zcf /tmp/workspace/src.tar.gz src
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - src.tar.gz
+
+  approval:
+    docker:
+      - image: circleci/php:7.4-node-browsers
+    steps:
+      - checkout
+      - run:
+          name: Approval
+          command: echo "approval"
+
+  deploy:
+    docker:
+      - image: circleci/php:7.4.5-fpm-buster
+    working_directory: ~/src
+    environment:
+      - BASH_ENV: .env
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Confirm Clone
+          command: ls -al /tmp/workspace
+      - run:
+          name: Copy Source
+          command: cp /tmp/workspace/src.tar.gz ./deploy/src.tar.gz
+      - run:
+          name: Confirm Copy
+          command: cd ./deploy && ls -al
+      - run:
+          name: Set ENV
+          command: echo "export SAKURA_FTP_HOST=${SAKURA_FTP_HOST}" >> $BASH_ENV && echo "export SAKURA_FTP_USER=${SAKURA_FTP_USER}" >> $BASH_ENV && echo "export SAKURA_FTP_PASS=${SAKURA_FTP_PASS}" >> $BASH_ENV && echo "export CIRCLE_TOKEN=${CIRCLE_API_TOKEN}" >> $BASH_ENV && source $BASH_ENV
+      - run:
+          name: Deploy
+          command: cd ./deploy && ls -al && php deployer.php
+      - add_ssh_keys:
+          fingerprints:
+            - "b0:04:93:b5:03:c9:2a:02:3c:54:28:41:d9:03:00:b3"
+      - run:
+          name: Start ssh-keyscan
+          command: ssh-keyscan ${SAKURA_FTP_HOST} >> ~/.ssh/known_hosts
+      - run:
+          name: Confirm SSH
+          command: ls -al ~/.ssh
+      - run:
+          name: SSH Login
+          command: ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${SAKURA_FTP_USER}@${SAKURA_FTP_HOST} 'cd www/smareco && sh deployer.sh && exit'
+      - run:
+          name: End Message
+          command: echo 'complete deploy.'
+
+workflows:
+  version: 2
+  build-node-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+      - approval:
+          type: approval
+          requires:
+            - build
+      - deploy:
+          requires:
+            - approval
+          filters:
+            branches:
+              only:
+                - master
