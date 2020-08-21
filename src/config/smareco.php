@@ -1,0 +1,15 @@
+<?php
+declare(strict_types=1);
+
+return [
+    'smaregi_api_host' => [
+        'idp' => env('SMAREGI_ID_HOST', ''),
+        'pos' => env('SMAREGI_POS_HOST', ''),
+    ],
+    'webhook_header' => [
+        'key' => env('WEBHOOK_HEADER_KEY', ''),
+        'value' => env('WEBHOOK_HEADER_VALUE', ''),
+    ],
+    'client_id' => env('SMAREGI_CLIENT_ID', ''),
+    'client_secret' => env('SMAREGI_CLIENT_SECRET', ''),
+];
