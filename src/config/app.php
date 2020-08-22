@@ -168,9 +168,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        // Laravel Debug Bar.
-        Barryvdh\Debugbar\ServiceProvider::class,
-
     ],
 
     /*
