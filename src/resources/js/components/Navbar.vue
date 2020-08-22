@@ -1,9 +1,11 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <a
+    <router-link
+      :to="{ name: 'top' }"
       class="navbar-brand"
-      href="#"
-    >スマレコ</a>
+    >
+      スマレコ
+    </router-link>
     <button
       class="navbar-toggler"
       type="button"
@@ -21,21 +23,21 @@
     >
       <div class="navbar-nav">
         <router-link
-          :to="{name: 'term'}"
+          :to="{ name: 'term' }"
           class="nav-link"
           :active-class="'active'"
         >
           利用規約<span class="sr-only">(current)</span>
         </router-link>
         <router-link
-          :to="{name: 'privacy_policy'}"
+          :to="{ name: 'privacy_policy' }"
           class="nav-link"
           :active-class="'active'"
         >
           プライバシーポリシー
         </router-link>
         <router-link
-          :to="{name: 'support'}"
+          :to="{ name: 'support' }"
           class="nav-link"
           :active-class="'active'"
         >
