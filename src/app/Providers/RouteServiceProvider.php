@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -59,8 +60,11 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-            ->namespace($this->namespace)
+            ->middleware(AuthMiddleware::class)
             ->group(base_path('routes/web.php'));
+
+        Route::middleware('web')
+            ->group(base_path('routes/guest.php'));
     }
 
     /**
@@ -74,7 +78,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
             ->middleware('api')
-            ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
     }
 }

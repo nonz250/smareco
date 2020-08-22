@@ -1,0 +1,60 @@
+<template>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a
+      class="navbar-brand"
+      href="#"
+    >スマレコ</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon" />
+    </button>
+    <div
+      id="navbarNavAltMarkup"
+      class="collapse navbar-collapse"
+    >
+      <div class="navbar-nav">
+        <router-link
+          :to="{name: 'term'}"
+          class="nav-link"
+          :active-class="'active'"
+        >
+          利用規約<span class="sr-only">(current)</span>
+        </router-link>
+        <router-link
+          :to="{name: 'privacy_policy'}"
+          class="nav-link"
+          :active-class="'active'"
+        >
+          プライバシーポリシー
+        </router-link>
+        <router-link
+          :to="{name: 'support'}"
+          class="nav-link"
+          :active-class="'active'"
+        >
+          サポート
+        </router-link>
+      </div>
+    </div>
+  </nav>
+</template>
+
+<script>
+export default {
+  name: 'Navbar',
+  created() {
+    console.log(this.$route.path);
+  }
+};
+</script>
+
+<style scoped>
+
+</style>
