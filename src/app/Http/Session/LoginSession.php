@@ -5,6 +5,7 @@ namespace App\Http\Session;
 
 use DateTimeInterface;
 use Illuminate\Contracts\Session\Session;
+use Smareco\Shared\Models\ValueObjects\TokenResponse;
 
 class LoginSession
 {
@@ -27,29 +28,11 @@ class LoginSession
     }
 
     /**
-     * @param string $tokenType
-     * @param DateTimeInterface $expiresIn
-     * @param string $accessToken
-     * @param string $refreshToken
-     * @param string $scope
-     * @param string $idToken
+     * @param TokenResponse $tokenResponse
      */
-    public function setSmaregiAuth(
-        string $tokenType,
-        DateTimeInterface $expiresIn,
-        string $accessToken,
-        string $refreshToken,
-        string $scope,
-        string $idToken
-    ): void {
-        $this->session->put(self::KEY, [
-            'token_type' => $tokenType,
-            'expires_in' => $expiresIn->format('Y/m/d H:i:s'),
-            'access_token' => $accessToken,
-            'refresh_token' => $refreshToken,
-            'scope' => $scope,
-            'id_token' => $idToken,
-        ]);
+    public function setSmaregiAuth(TokenResponse $tokenResponse): void
+    {
+        $this->session->put(self::KEY, $tokenResponse->toArray());
     }
 
     /**
