@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Smareco\Exceptions\SmarecoSpecificationExceptionInterface;
 use Smareco\Exceptions\UnauthorizedException;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -52,6 +54,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof ValidationException) {
+            return parent::render($request, $exception);
+        }
+
         if ($exception instanceof UnauthorizedException) {
             if ($request->expectsJson()) {
                 return response()->json([
@@ -60,6 +66,24 @@ class Handler extends ExceptionHandler
             }
             return redirect()->route('login');
         }
+
+        if ($exception instanceof SmarecoSpecificationExceptionInterface) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => (string) $exception->getMessage(),
+                ], (int) $exception->getCode());
+            }
+            abort(500, $exception->getMessage());
+        }
+
+        if ($exception instanceof Throwable) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => (string) $exception->getMessage(),
+                ], (int) $exception->getCode());
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }
