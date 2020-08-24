@@ -27,4 +27,6 @@ interface SmaregiUserInfoRepositoryInterface
      * @return SmaregiUserInfo
      */
     public function saveUserInfoToSession(SmaregiUserInfo $smaregiUserInfo): SmaregiUserInfo;
+
+    public function deleteUserInfoFromSession(): void;
 }

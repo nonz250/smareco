@@ -40,4 +40,8 @@ interface LoginSessionInterface
      * @return bool
      */
     public function IsExpiredAt(DateTimeInterface $date): bool;
+
+    public function deleteSmaregiUserInfo(): void;
+
+    public function deleteSmaregiToken(): void;
 }

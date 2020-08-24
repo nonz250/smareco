@@ -90,4 +90,14 @@ class SmaregiUserInfoSession implements LoginSessionInterface
     {
         return $this->getSmaregiToken() !== null;
     }
+
+    public function deleteSmaregiUserInfo(): void
+    {
+        $this->session->remove(self::KEY_USER_INFO);
+    }
+
+    public function deleteSmaregiToken(): void
+    {
+        $this->session->remove(self::KEY_TOKEN);
+    }
 }

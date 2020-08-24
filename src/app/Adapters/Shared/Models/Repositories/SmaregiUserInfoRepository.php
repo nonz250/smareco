@@ -92,4 +92,9 @@ class SmaregiUserInfoRepository implements SmaregiUserInfoRepositoryInterface
         $this->smaregiUserInfoSession->setSmaregiUserInfo($smaregiUserInfo);
         return $smaregiUserInfo;
     }
+
+    public function deleteUserInfoFromSession(): void
+    {
+        $this->smaregiUserInfoSession->deleteSmaregiUserInfo();
+    }
 }

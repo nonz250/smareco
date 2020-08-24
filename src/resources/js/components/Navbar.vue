@@ -45,14 +45,35 @@
         </router-link>
       </div>
     </div>
+    <a
+      href="/login"
+      class="btn btn-outline-light mx-1"
+    >
+      ログイン
+    </a>
+    <form
+      action="/logout"
+      method="post"
+    >
+      <input
+        type="hidden"
+        name="_token"
+        :value="csrfToken"
+      >
+      <button class="btn btn-outline-light mx-1">
+        ログアウト
+      </button>
+    </form>
   </nav>
 </template>
 
 <script>
 export default {
   name: 'Navbar',
-  created() {
-    console.log(this.$route.path);
+  computed: {
+    csrfToken() {
+      return document.getElementsByName('csrf-token').item(0).content;
+    }
   }
 };
 </script>
