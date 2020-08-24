@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import Auth from './src/Auth/Auth';
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -28,9 +30,48 @@ window.Vue.component('app', require('./App.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// eslint-disable-next-line no-undef,no-unused-vars
-const app = new Vue({
-  el: '#app',
-  router,
-  store
+/**
+ * Vue init auth
+ */
+const auth = async () => {
+  const auth = new Auth();
+  try {
+    const user = await auth.user();
+    if (user) {
+      await store.dispatch('auth/setUser', user);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+/**
+ * Vue router's Auth guard
+ */
+router.beforeEach((to, from, next) => {
+  const isPublic = to.matched.some((record) => {
+    return record.meta.public;
+  });
+  if (isPublic) {
+    next();
+    return;
+  }
+  if (!store.getters['auth/logged_in']) {
+    next({name: 'login'});
+    return;
+  }
+  next();
 });
+
+/**
+ * Vue load afterAuth check.
+ */
+auth().then(() => {
+// eslint-disable-next-line no-undef,no-unused-vars
+  const app = new Vue({
+    el: '#app',
+    router,
+    store
+  });
+});
+

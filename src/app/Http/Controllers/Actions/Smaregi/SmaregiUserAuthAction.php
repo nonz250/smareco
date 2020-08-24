@@ -62,6 +62,6 @@ class SmaregiUserAuthAction extends Controller
         } catch (Throwable $e) {
             throw $e;
         }
-        return redirect()->route('top');
+        return redirect()->route('home');
     }
 }

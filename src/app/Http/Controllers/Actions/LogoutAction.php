@@ -31,8 +31,8 @@ class LogoutAction extends Controller
      * Handle the incoming request.
      *
      * @param LogoutRequest $request
-     * @return RedirectResponse
      * @throws Throwable
+     * @return RedirectResponse
      */
     public function __invoke(LogoutRequest $request)
     {
