@@ -80,7 +80,7 @@ class SmaregiUserInfoRepository implements SmaregiUserInfoRepositoryInterface
      */
     public function findUserInfoFromSession(): ?SmaregiUserInfo
     {
-        return $this->smaregiUserInfoSession->getUserInfo();
+        return $this->smaregiUserInfoSession->getSmaregiUserInfo();
     }
 
     /**
@@ -89,7 +89,7 @@ class SmaregiUserInfoRepository implements SmaregiUserInfoRepositoryInterface
      */
     public function saveUserInfoToSession(SmaregiUserInfo $smaregiUserInfo): SmaregiUserInfo
     {
-        $this->smaregiUserInfoSession->setUserInfo($smaregiUserInfo);
+        $this->smaregiUserInfoSession->setSmaregiUserInfo($smaregiUserInfo);
         return $smaregiUserInfo;
     }
 }

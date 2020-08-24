@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use App\Http\Session\LoginSession;
+use App\Http\Session\SmaregiUserInfoSession;
 use Closure;
 use Illuminate\Http\Request;
 use Smareco\Exceptions\UnauthorizedException;
@@ -11,18 +11,18 @@ use Smareco\Exceptions\UnauthorizedException;
 class AuthMiddleware
 {
     /**
-     * @var LoginSession
+     * @var SmaregiUserInfoSession
      */
-    private LoginSession $loginSession;
+    private SmaregiUserInfoSession $smaregiUserInfoSession;
 
     /**
      * AuthMiddleware constructor.
      *
-     * @param LoginSession $loginSession
+     * @param SmaregiUserInfoSession $smaregiUserInfoSession
      */
-    public function __construct(LoginSession $loginSession)
+    public function __construct(SmaregiUserInfoSession $smaregiUserInfoSession)
     {
-        $this->loginSession = $loginSession;
+        $this->smaregiUserInfoSession = $smaregiUserInfoSession;
     }
 
     /**
@@ -35,7 +35,7 @@ class AuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!$this->loginSession->isLoggedIn()) {
+        if (!$this->smaregiUserInfoSession->isLoggedIn()) {
             throw new UnauthorizedException('このアプリを使用するためにはスマレジのログイン情報が必要です。');
         }
         return $next($request);
