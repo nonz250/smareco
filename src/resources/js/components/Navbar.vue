@@ -45,12 +45,12 @@
         </router-link>
       </div>
     </div>
-    <a
-      href="/login"
+    <router-link
+      :to="{ name: 'login' }"
       class="btn btn-outline-light mx-1"
     >
       ログイン
-    </a>
+    </router-link>
     <form
       action="/logout"
       method="post"
