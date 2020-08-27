@@ -4,5 +4,5 @@
 @include('layouts.script')
 
 @section('content')
-<app><app>
+    <app></app>
 @endsection
