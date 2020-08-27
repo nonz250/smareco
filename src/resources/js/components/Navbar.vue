@@ -21,7 +21,7 @@
       id="navbarNavAltMarkup"
       class="collapse navbar-collapse"
     >
-      <div class="navbar-nav">
+      <div class="navbar-nav mr-auto">
         <router-link
           :to="{ name: 'term' }"
           class="nav-link"
@@ -44,26 +44,28 @@
           サポート
         </router-link>
       </div>
-    </div>
-    <router-link
-      :to="{ name: 'login' }"
-      class="btn btn-outline-light mx-1"
-    >
-      ログイン
-    </router-link>
-    <form
-      action="/logout"
-      method="post"
-    >
-      <input
-        type="hidden"
-        name="_token"
-        :value="csrfToken"
+      <router-link
+        v-if="!$store.getters['auth/logged_in']"
+        :to="{ name: 'login' }"
+        class="btn btn-outline-light mx-1"
       >
-      <button class="btn btn-outline-light mx-1">
-        ログアウト
-      </button>
-    </form>
+        ログイン
+      </router-link>
+      <form
+        v-if="$store.getters['auth/logged_in']"
+        action="/logout"
+        method="post"
+      >
+        <input
+          type="hidden"
+          name="_token"
+          :value="csrfToken"
+        >
+        <button class="btn btn-outline-light mx-1">
+          ログアウト
+        </button>
+      </form>
+    </div>
   </nav>
 </template>
 
