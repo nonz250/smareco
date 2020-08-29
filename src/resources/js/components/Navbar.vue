@@ -62,17 +62,23 @@
           name="_token"
           :value="csrfToken"
         >
-        <button class="btn btn-outline-light mx-1">
+        <light-button
+          outline
+          class="mx-1"
+        >
           ログアウト
-        </button>
+        </light-button>
       </form>
     </div>
   </nav>
 </template>
 
 <script>
+import LightButton from '../atoms/LightButton';
+import SuccessButton from '../atoms/SuccessButton';
 export default {
   name: 'Navbar',
+  components: {SuccessButton, LightButton},
   computed: {
     csrfToken() {
       return document.getElementsByName('csrf-token').item(0).content;

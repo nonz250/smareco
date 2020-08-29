@@ -26,9 +26,7 @@
               </div>
               <div class="card-footer">
                 <div class="text-right">
-                  <button class="btn btn-primary">
-                    スマレジでログイン
-                  </button>
+                  <primary-button>スマレジでログイン</primary-button>
                 </div>
               </div>
             </div>
@@ -41,8 +39,10 @@
 </template>
 
 <script>
+import PrimaryButton from '../../atoms/PrimaryButton';
 export default {
   name: 'Login',
+  components: {PrimaryButton},
   computed: {
     csrfToken() {
       return document.getElementsByName('csrf-token').item(0).content;

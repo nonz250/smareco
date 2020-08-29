@@ -1,7 +1,7 @@
 <template>
   <button
     class="btn"
-    :class="{'btn-success': !outline, 'btn-outline-success': outline}"
+    :class="{'btn-primary': !outline, 'btn-outline-primary': outline}"
     :disabled="disabled"
     @click="$emit('click')"
   >
@@ -16,7 +16,7 @@
 <script>
 import Loader from './Loader';
 export default {
-  name: 'SuccessButton',
+  name: 'PrimaryButton',
   components: {Loader},
   props: {
     outline: {
