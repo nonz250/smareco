@@ -3,6 +3,7 @@
     <form
       action="/smaregi/openid"
       method="post"
+      name="login"
     >
       <input
         type="hidden"
@@ -26,7 +27,9 @@
               </div>
               <div class="card-footer">
                 <div class="text-right">
-                  <primary-button>スマレジでログイン</primary-button>
+                  <primary-button @click="submit">
+                    スマレジでログイン
+                  </primary-button>
                 </div>
               </div>
             </div>
@@ -46,6 +49,11 @@ export default {
   computed: {
     csrfToken() {
       return document.getElementsByName('csrf-token').item(0).content;
+    }
+  },
+  methods: {
+    submit() {
+      document.login.submit();
     }
   }
 };

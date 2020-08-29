@@ -3,7 +3,7 @@
     aria-live="polite"
     aria-atomic="true"
     class="position-fixed fixed-top w-100 h-100 d-flex justify-content-center align-items-center"
-    :style="!toast ? 'z-index: 1;' : 'cursor: not-allowed;'"
+    :style="!toast ? 'z-index: -1;' : 'cursor: not-allowed;'"
   >
     <div
       id="toast"
