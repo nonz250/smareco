@@ -45,6 +45,13 @@
           サポート
         </router-link>
       </div>
+      <success-button
+        v-if="$store.getters['auth/logged_in']"
+        outline
+        @click="syncCustomer"
+      >
+        会員同期<span class="sr-only">(current)</span>
+      </success-button>
       <router-link
         v-if="!$store.getters['auth/logged_in']"
         :to="{ name: 'login' }"
@@ -76,9 +83,16 @@
 <script>
 import LightButton from '../atoms/LightButton';
 import SuccessButton from '../atoms/SuccessButton';
+import SyncCustomer from '../src/Customers/UseCases/SyncCustomer';
+
 export default {
   name: 'Navbar',
   components: {SuccessButton, LightButton},
+  data() {
+    return {
+      syncCustomerUseCase: new SyncCustomer()
+    };
+  },
   computed: {
     csrfToken() {
       return document.getElementsByName('csrf-token').item(0).content;
@@ -87,6 +101,17 @@ export default {
   methods: {
     navClick() {
       $('.navbar-collapse').collapse('hide');
+    },
+    async syncCustomer() {
+      try {
+        await this.syncCustomerUseCase.process();
+      } catch (e) {
+        await this.$store.dispatch('toast/setToast', true);
+        await this.$store.dispatch('toast/setContent', {
+          title: 'エラー',
+          messages: [e.exception],
+        });
+      }
     }
   }
 };
