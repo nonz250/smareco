@@ -20,6 +20,7 @@
     <div
       id="navbarNavAltMarkup"
       class="collapse navbar-collapse"
+      @click="navClick"
     >
       <div class="navbar-nav mr-auto">
         <router-link
@@ -75,6 +76,11 @@ export default {
   computed: {
     csrfToken() {
       return document.getElementsByName('csrf-token').item(0).content;
+    }
+  },
+  methods: {
+    navClick() {
+      $('.navbar-collapse').collapse('hide');
     }
   }
 };
