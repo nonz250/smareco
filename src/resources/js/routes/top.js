@@ -2,12 +2,21 @@ import Index from '../pages/Index';
 import Term from '../pages/Term';
 import PrivacyPolicy from '../pages/PrivacyPolicy';
 import Support from '../pages/Support';
+import Home from '../pages/Home';
 
 const routes = [
   {
     name: 'top',
     path: '/',
     component: Index,
+    meta: {
+      public: true,
+    }
+  },
+  {
+    name: 'home',
+    path: '/home',
+    component: Home,
     meta: {
       public: true,
     }

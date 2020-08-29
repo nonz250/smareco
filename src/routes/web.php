@@ -16,8 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('logout', LogoutAction::class);
 
-Route::get('home', function () {
-    return response()->json([
-        'test' => 'test',
-    ]);
-})->name('home');
+Route::view('home', 'pages.vue')->name('home');
