@@ -3,7 +3,7 @@
     aria-live="polite"
     aria-atomic="true"
     class="position-fixed fixed-top w-100 h-100 d-flex justify-content-center align-items-center"
-    :style="!toast ? 'z-index: 1' : ''"
+    :style="!toast ? 'z-index: 1;' : 'cursor: not-allowed;'"
   >
     <div
       id="toast"
@@ -12,6 +12,7 @@
       aria-live="assertive"
       aria-atomic="true"
       data-autohide="false"
+      style="cursor: auto;"
     >
       <div class="toast-header">
         <!--<img src="..." class="rounded mr-2" alt="...">-->
