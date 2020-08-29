@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Apis\Customers\SyncCustomerAction;
 use App\Http\Controllers\Apis\SmaregiUserInfo\GetSmaregiUserInfoAction;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/user', GetSmaregiUserInfoAction::class);
+Route::prefix('customer')
+    ->group(static function () {
+        Route::get('sync', SyncCustomerAction::class);
+    });
