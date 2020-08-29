@@ -33,14 +33,14 @@ class CustomerCollection extends Collection
         $array = [];
         foreach ($items as $item) {
             $array[] = new Customer(
-                (string) $item['id'],
-                (string) $item['code'],
+                (string) $item['customerId'],
+                (string) $item['customerCode'],
                 (string) $item['rank'],
                 (string) ($item['lastName'] . ' ' . $item['firstName']),
                 (string) ($item['lastKana'] . ' ' . $item['firstKana']),
                 (string) ($item['mailAddress'] ?? $item['mailAddress2'] ?? $item['mailAddress3']),
                 (string) $item['sex'],
-                DateTime::createFromFormat('Y/m/d H:i:s', $item['birthDate']),
+                $item['birthDate'] ? DateTime::createFromFormat('Y/m/d H:i:s', $item['birthDate']) : null,
                 (string) $item['storeId'],
                 (string) $item['mailReceiveFlag']
             );

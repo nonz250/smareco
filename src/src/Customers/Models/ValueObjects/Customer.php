@@ -14,7 +14,7 @@ class Customer
     private string $kana;
     private string $email;
     private string $sex;
-    private DateTimeInterface $birthday;
+    private ?DateTimeInterface $birthday;
     private string $storeId;
     private string $mailReceiveFlag;
 
@@ -28,7 +28,7 @@ class Customer
      * @param string $kana
      * @param string $email
      * @param string $sex
-     * @param DateTimeInterface $birthday
+     * @param DateTimeInterface|null $birthday
      * @param string $storeId
      * @param string $mailReceiveFlag
      */
@@ -40,7 +40,7 @@ class Customer
         string $kana,
         string $email,
         string $sex,
-        DateTimeInterface $birthday,
+        ?DateTimeInterface $birthday,
         string $storeId,
         string $mailReceiveFlag
     ) {
@@ -62,16 +62,16 @@ class Customer
     public function toArray(): array
     {
         return [
-            'id',
-            'code',
-            'rank',
-            'name',
-            'kana',
-            'email',
-            'sex',
-            'birthday',
-            'store_id',
-            'mail_receive_flag',
+            'id' => $this->id,
+            'code' => $this->code,
+            'rank' => $this->rank,
+            'name' => $this->name,
+            'kana' => $this->kana,
+            'email' => $this->email,
+            'sex' => $this->sex,
+            'birthday' => $this->birthday->format('Y/m/d H:i:s'),
+            'store_id' => $this->storeId,
+            'mail_receive_flag' => $this->mailReceiveFlag,
         ];
     }
 }
