@@ -18,5 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', GetSmaregiUserInfoAction::class);
 Route::prefix('customer')
     ->group(static function () {
-        Route::get('sync', SyncCustomerAction::class);
+        Route::post('sync', SyncCustomerAction::class);
     });
