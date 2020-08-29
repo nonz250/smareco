@@ -9,7 +9,7 @@ use IteratorAggregate;
 
 abstract class Collection implements IteratorAggregate, Countable
 {
-    protected $items;
+    protected array $items;
 
     /**
      * Collection constructor.
@@ -28,7 +28,10 @@ abstract class Collection implements IteratorAggregate, Countable
      */
     abstract public static function fromArray(array $items);
 
-    abstract protected function validate(): void;
+    /**
+     * @param mixed $item
+     */
+    abstract protected function validate($item): void;
 
     /**
      * @return int
@@ -36,6 +39,14 @@ abstract class Collection implements IteratorAggregate, Countable
     public function count(): int
     {
         return count($this->items);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return $this->count() === 0;
     }
 
     /**
