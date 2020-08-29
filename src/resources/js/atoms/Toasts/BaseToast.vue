@@ -22,6 +22,7 @@
           class="ml-2 mb-1 close"
           data-dismiss="toast"
           aria-label="Close"
+          @click="toast = false"
         >
           <span aria-hidden="true">&times;</span>
         </button>
