@@ -80,7 +80,7 @@ class Handler extends ExceptionHandler
             if ($request->expectsJson()) {
                 return response()->json([
                     'message' => (string) $exception->getMessage(),
-                ], (int) $exception->getCode());
+                ], 500);
             }
         }
 
