@@ -42,9 +42,14 @@ class CustomerRepository implements CustomerRepositoryInterface
             'Authorization' => $tokenType . ' ' . (string) $accessToken,
         ];
 
+        $query = http_build_query([
+            'page' => (int) $page,
+            'limit' => (int) $length,
+        ]);
+
         $request = new Request(
             'GET',
-            config('smareco.smaregi_api_host.pos') . '/' . $contractId . '/pos' . self::CUSTOMER_PATH,
+            config('smareco.smaregi_api_host.pos') . '/' . $contractId . '/pos' . self::CUSTOMER_PATH . '?' . $query,
             $headers
         );
 
