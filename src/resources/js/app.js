@@ -12,7 +12,7 @@ window.Vue = require('vue');
 
 import router from './plugins/router';
 import store from './plugins/store';
-
+import utilMixins from './mixins/utilMixins';
 
 /**
  * The following block of code may be used to automatically register your
@@ -62,6 +62,11 @@ router.beforeEach((to, from, next) => {
   }
   next();
 });
+
+/**
+ * global mixins.
+ */
+window.Vue.mixin(utilMixins);
 
 /**
  * Vue load afterAuth check.
