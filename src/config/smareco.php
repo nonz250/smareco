@@ -12,4 +12,11 @@ return [
     ],
     'client_id' => env('SMAREGI_CLIENT_ID', ''),
     'client_secret' => env('SMAREGI_CLIENT_SECRET', ''),
+    'scopes' => [
+        'pos.products:read',
+        'pos.customers:read',
+        'pos.transactions:read',
+        'pos.stores:read',
+        'pos.staffs:read',
+    ],
 ];

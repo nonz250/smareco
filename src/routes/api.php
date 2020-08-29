@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Apis\Customers\SyncCustomerAction;
 use App\Http\Controllers\Apis\SmaregiUserInfo\GetSmaregiUserInfoAction;
+use App\Http\Middleware\GenerateApiTokenMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/user', GetSmaregiUserInfoAction::class);
-Route::prefix('customer')
+
+Route::middleware(GenerateApiTokenMiddleware::class)
     ->group(static function () {
-        Route::post('sync', SyncCustomerAction::class);
+        Route::prefix('customer')
+            ->group(static function () {
+                Route::post('sync', SyncCustomerAction::class);
+            });
     });

@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Adapters\Shared\Models\Repositories\SmaregiTokenRepository;
 use App\Adapters\Shared\Models\Repositories\SmaregiUserInfoRepository;
 use App\Adapters\Shared\Models\Repositories\SmaregiUserTokenRepository;
 use Illuminate\Support\ServiceProvider;
+use Smareco\Shared\Models\Repositories\SmaregiTokenRepositoryInterface;
 use Smareco\Shared\Models\Repositories\SmaregiUserInfoRepositoryInterface;
 use Smareco\Shared\Models\Repositories\SmaregiUserTokenRepositoryInterface;
 
@@ -20,6 +22,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(SmaregiUserTokenRepositoryInterface::class, SmaregiUserTokenRepository::class);
         $this->app->bind(SmaregiUserInfoRepositoryInterface::class, SmaregiUserInfoRepository::class);
+        $this->app->bind(SmaregiTokenRepositoryInterface::class, SmaregiTokenRepository::class);
     }
 
     /**

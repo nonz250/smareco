@@ -67,7 +67,7 @@ class TokenResponse
             $item['token_type'],
             $item['expires_in'],
             new AccessToken($item['access_token']),
-            $item['refresh_token'],
+            $item['refresh_token'] ?? '',
             $item['scope'],
             $item['id_token'] ?? null
         );
@@ -81,7 +81,7 @@ class TokenResponse
         return [
             'token_type' => $this->tokenType,
             'expires_in' => $this->expiresIn,
-            'access_token' => $this->accessToken,
+            'access_token' => (string) $this->accessToken,
             'refresh_token' => $this->refreshToken,
             'scope' => $this->scope,
             'id_token' => $this->idToken,
