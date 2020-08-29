@@ -1,37 +1,35 @@
 import Axios from './Axios';
 
 class Api {
-  set errors(value) {
-    this._errors.push(value);
+  get error() {
+    return this._error;
   }
 
-  get errors() {
-    return this._errors;
+  set errors(value) {
+    this._error.errors = value;
   }
 
   set exception(value) {
-    this._exception = value;
-  }
-
-  get exception() {
-    return this._exception;
+    this._error.exception = value;
   }
 
   constructor() {
     this._api = new Axios();
-    this._errors = [];
+    this._error = new Error();
+    this._error.errors = [];
   }
 
   checkErrorByResponseStatus(response) {
-    this._errors = [];
+    this._error = new Error();
+    this._error.errors = [];
     if (response.status >= 200 && response.status < 300) {
       return true;
     } else if (response.status === 422) {
       this.errors = response.data.errors;
       return false;
     } else {
-      this.errors = [response.message];
-      this.exception = response.message;
+      this.errors = [response.data.message];
+      this.exception = response.data.message;
       return false;
     }
   }

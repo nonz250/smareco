@@ -41,7 +41,7 @@ const auth = async () => {
       await store.dispatch('auth/setUser', user);
     }
   } catch (e) {
-    console.error(e);
+    console.error(e.exception);
   }
 };
 
@@ -67,7 +67,7 @@ router.beforeEach((to, from, next) => {
  * Vue load afterAuth check.
  */
 auth().then(() => {
-// eslint-disable-next-line no-undef,no-unused-vars
+  // eslint-disable-next-line no-undef,no-unused-vars
   const app = new Vue({
     el: '#app',
     router,

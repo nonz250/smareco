@@ -5,7 +5,7 @@ class Auth extends Api {
     const params = new URLSearchParams();
     const response = await this._api.send('get', '/api/user', params);
     if (!this.checkErrorByResponseStatus(response)) {
-      throw new Error(this._api.error);
+      throw this.error;
     }
     return response.data;
   }
