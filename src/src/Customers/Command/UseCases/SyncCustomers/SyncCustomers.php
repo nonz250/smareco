@@ -45,6 +45,9 @@ class SyncCustomers implements SyncCustomersInterface
             }
 
             // 永続化処理
+            foreach ($customerCollection as $customer) {
+                $this->customerRepository->saveToStorage($customer);
+            }
 
             $page++;
         }

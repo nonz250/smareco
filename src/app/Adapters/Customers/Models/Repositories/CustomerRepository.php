@@ -6,8 +6,11 @@ namespace App\Adapters\Customers\Models\Repositories;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Str;
+use RuntimeException;
 use Smareco\Customers\Models\Collection\CustomerCollection;
 use Smareco\Customers\Models\Repositories\CustomerRepositoryInterface;
+use Smareco\Customers\Models\Entities\Customer;
 use Smareco\Exceptions\SmarecoSpecificationException;
 use Smareco\Shared\Models\ValueObjects\AccessToken;
 
@@ -22,13 +25,20 @@ class CustomerRepository implements CustomerRepositoryInterface
     private Client $client;
 
     /**
+     * @var \App\Models\Customer
+     */
+    private \App\Models\Customer $customer;
+
+    /**
      * CustomerRepository constructor.
      *
      * @param Client $client
+     * @param \App\Models\Customer $customer
      */
-    public function __construct(Client $client)
+    public function __construct(Client $client, \App\Models\Customer $customer)
     {
         $this->client = $client;
+        $this->customer = $customer;
     }
 
     public function findCustomerFromApiForPaginate(
@@ -60,11 +70,38 @@ class CustomerRepository implements CustomerRepositoryInterface
         }
 
         $responseBody = json_decode($response->getBody()->getContents(), true);
+        foreach ($responseBody as $key => $item) {
+            $responseBody[$key]['id'] = (string) Str::uuid();
+            $responseBody[$key]['providerId'] = (string) config('smareco.providers.smaregi');
+            $responseBody[$key]['contractId'] = (string) $contractId;
+        }
         return CustomerCollection::fromArray($responseBody);
     }
 
-    public function saveToStorage(CustomerCollection $customerCollection): CustomerCollection
+    public function saveToStorage(Customer $customer): Customer
     {
-        // TODO: Implement saveToStorage() method.
+        $customerModel = $this->customer->newQuery()
+            ->firstOrNew([
+                'provider_id' => $customer->providerId(),
+                'contract_id' => $customer->contractId(),
+                'customer_id' => $customer->customerId(),
+            ])->fill([
+                'id' => $customer->id(),
+                'customer_code' => $customer->code(),
+                'store_id' => $customer->storeId(),
+                'rank' => $customer->rank(),
+                'name' => $customer->name(),
+                'kana' => $customer->kana(),
+                'email' => $customer->email(),
+                'sex' => $customer->sex()->toInt(),
+                'mail_receive_flag' => $customer->mailReceiveFlag()->toInt(),
+                'status' => $customer->customerStatus()->toInt(),
+            ]);
+
+        if (!$customerModel->save()) {
+            throw new RuntimeException('会員情報の保存に失敗しました。');
+        }
+
+        return $customer;
     }
 }

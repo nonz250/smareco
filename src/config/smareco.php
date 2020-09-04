@@ -19,4 +19,7 @@ return [
         'pos.stores:read',
         'pos.staffs:read',
     ],
+    'providers' => [
+        'smaregi' => 'smaregi',
+    ],
 ];

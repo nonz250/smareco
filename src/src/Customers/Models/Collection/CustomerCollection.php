@@ -5,7 +5,10 @@ namespace Smareco\Customers\Models\Collection;
 
 use DateTime;
 use InvalidArgumentException;
-use Smareco\Customers\Models\ValueObjects\Customer;
+use Smareco\Customers\Models\Entities\Customer;
+use Smareco\Customers\Models\ValueObjects\CustomerMailReceiveFlag;
+use Smareco\Customers\Models\ValueObjects\CustomerSex;
+use Smareco\Customers\Models\ValueObjects\CustomerStatus;
 use Smareco\Foundation\Collection;
 
 class CustomerCollection extends Collection
@@ -33,16 +36,20 @@ class CustomerCollection extends Collection
         $array = [];
         foreach ($items as $item) {
             $array[] = new Customer(
+                (string) $item['id'],
+                (string) $item['providerId'],
+                (string) $item['contractId'],
                 (string) $item['customerId'],
                 (string) $item['customerCode'],
                 (string) $item['rank'],
                 (string) ($item['lastName'] . ' ' . $item['firstName']),
                 (string) ($item['lastKana'] . ' ' . $item['firstKana']),
                 (string) ($item['mailAddress'] ?? $item['mailAddress2'] ?? $item['mailAddress3']),
-                (string) $item['sex'],
+                new CustomerSex((int) $item['sex']),
                 $item['birthDate'] ? DateTime::createFromFormat('Y/m/d H:i:s', $item['birthDate']) : null,
                 (string) $item['storeId'],
-                (string) $item['mailReceiveFlag']
+                new CustomerMailReceiveFlag((int) $item['mailReceiveFlag']),
+                new CustomerStatus((int) $item['status']),
             );
         }
         return new self($array);

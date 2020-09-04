@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Smareco\Customers\Models\Repositories;
 
 use Smareco\Customers\Models\Collection\CustomerCollection;
+use Smareco\Customers\Models\Entities\Customer;
 use Smareco\Exceptions\SmarecoSpecificationExceptionInterface;
 use Smareco\Shared\Models\ValueObjects\AccessToken;
 
@@ -27,8 +28,8 @@ interface CustomerRepositoryInterface
     ): ?CustomerCollection;
 
     /**
-     * @param CustomerCollection $customerCollection
-     * @return CustomerCollection
+     * @param Customer $customer
+     * @return Customer
      */
-    public function saveToStorage(CustomerCollection $customerCollection): CustomerCollection;
+    public function saveToStorage(Customer $customer): Customer;
 }
