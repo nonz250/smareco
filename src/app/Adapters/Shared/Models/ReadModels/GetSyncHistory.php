@@ -22,13 +22,18 @@ class GetSyncHistory implements GetSyncHistoryQuery
         $this->syncHistory = $syncHistory;
     }
 
-    public function findLatest(string $providerId, string $contractId): SyncHistory
+    public function findLatest(string $providerId, string $contractId): ?SyncHistory
     {
         $syncHistoryModel = $this->syncHistory->newQuery()
             ->where('provider_id', $providerId)
             ->where('contract_id', $contractId)
             ->latest('sync_datetime')
             ->first();
+
+        if ($syncHistoryModel === null) {
+            return null;
+        }
+
         return new SyncHistory(
             (string) $syncHistoryModel->getAttribute('id'),
             (string) $syncHistoryModel->getAttribute('provider_id'),

@@ -61,6 +61,6 @@ class GetSyncHistoryAction extends Controller
         } catch (Throwable $e) {
             throw $e;
         }
-        return response()->json($syncHistory->toArray());
+        return response()->json($syncHistory ? $syncHistory->toArray() : []);
     }
 }
