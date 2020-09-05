@@ -14,6 +14,8 @@ use Smareco\SmaregiUserInfo\Command\UseCases\GetSmaregiUserInfo\GetSmaregiUserIn
 use Smareco\SmaregiUserInfo\Command\UseCases\GetSmaregiUserInfo\GetSmaregiUserInfoInterface;
 use Smareco\SmaregiUserInfo\Command\UseCases\SaveSmaregiUserInfo\SaveSmaregiUserInfo;
 use Smareco\SmaregiUserInfo\Command\UseCases\SaveSmaregiUserInfo\SaveSmaregiUserInfoInterface;
+use Smareco\SmaregiWebhook\SmaregiWebhook;
+use Smareco\SmaregiWebhook\SmaregiWebhookInterface;
 
 class UseCaseServiceProvider extends ServiceProvider
 {
@@ -29,6 +31,7 @@ class UseCaseServiceProvider extends ServiceProvider
         $this->app->bind(GetSmaregiUserInfoInterface::class, GetSmaregiUserInfo::class);
         $this->app->bind(GenerateSmaregiTokenInterface::class, GenerateSmaregiToken::class);
         $this->app->bind(SyncCustomersInterface::class, SyncCustomers::class);
+        $this->app->bind(SmaregiWebhookInterface::class, SmaregiWebhook::class);
     }
 
     /**

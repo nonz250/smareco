@@ -64,6 +64,10 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::middleware('web')
             ->group(base_path('routes/guest.php'));
+
+        Route::prefix('webhook')
+            ->middleware('webhook')
+            ->group(base_path('routes/webhook.php'));
     }
 
     /**

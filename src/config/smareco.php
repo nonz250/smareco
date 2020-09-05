@@ -19,6 +19,9 @@ return [
         'pos.stores:read',
         'pos.staffs:read',
     ],
+    'webhooks' => [
+        'customer' => 'pos:categories',
+    ],
     'providers' => [
         'smaregi' => 'smaregi',
     ],
