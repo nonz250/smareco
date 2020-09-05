@@ -21,7 +21,7 @@ class CreateSyncNecessariesTable extends Migration
             $table->text('field');
             $table->timestamps();
 
-            $table->index(['provider_id', 'contract_id']);
+            $table->unique(['provider_id', 'contract_id', 'target']);
         });
     }
 

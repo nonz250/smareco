@@ -163,7 +163,7 @@ export default {
       try {
         const syncNecessary = await this.getSyncNecessary.process();
         await this.$store.dispatch('syncNecessary/setSyncNecessary', syncNecessary);
-        if (syncNecessary.length) {
+        if (syncNecessary) {
           await this.$store.dispatch('toast/setToast', true);
           await this.$store.dispatch('toast/setContent', {
             title: '同期',

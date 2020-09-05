@@ -61,6 +61,6 @@ class GetSyncNecessaryAction extends Controller
         } catch (Throwable $e) {
             throw $e;
         }
-        return response()->json($syncNecessary ? $syncNecessary->toArray() : []);
+        return response()->json($syncNecessary ? $syncNecessary->toArray() : [], $syncNecessary ? 200 : 204);
     }
 }

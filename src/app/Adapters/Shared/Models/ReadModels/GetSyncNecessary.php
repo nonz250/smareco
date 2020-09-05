@@ -26,7 +26,6 @@ class GetSyncNecessary implements GetSyncNecessaryQuery
         $syncNecessaryModel = $this->syncNecessary->newQuery()
             ->where('provider_id', $providerId)
             ->where('contract_id', $contractId)
-            ->latest('updated_at')
             ->first();
 
         if ($syncNecessaryModel === null) {

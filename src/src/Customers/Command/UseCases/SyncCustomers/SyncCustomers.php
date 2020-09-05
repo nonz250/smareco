@@ -7,6 +7,7 @@ use Smareco\Customers\Models\Repositories\CustomerRepositoryInterface;
 use Smareco\Exceptions\SmarecoSpecificationExceptionInterface;
 use Smareco\Shared\Models\Factories\SyncHistoryFactoryInterface;
 use Smareco\Shared\Models\Repositories\SyncHistoryRepositoryInterface;
+use Smareco\Shared\Models\Repositories\SyncNecessaryRepositoryInterface;
 use Smareco\Shared\Models\ValueObjects\Target;
 
 class SyncCustomers implements SyncCustomersInterface
@@ -27,20 +28,28 @@ class SyncCustomers implements SyncCustomersInterface
     private SyncHistoryRepositoryInterface $syncHistoryRepository;
 
     /**
+     * @var SyncNecessaryRepositoryInterface
+     */
+    private SyncNecessaryRepositoryInterface $syncNecessaryRepository;
+
+    /**
      * SyncCustomers constructor.
      *
      * @param CustomerRepositoryInterface $customerRepository
      * @param SyncHistoryFactoryInterface $syncHistoryFactory
      * @param SyncHistoryRepositoryInterface $syncHistoryRepository
+     * @param SyncNecessaryRepositoryInterface $syncNecessaryRepository
      */
     public function __construct(
         CustomerRepositoryInterface $customerRepository,
         SyncHistoryFactoryInterface $syncHistoryFactory,
-        SyncHistoryRepositoryInterface $syncHistoryRepository
+        SyncHistoryRepositoryInterface $syncHistoryRepository,
+        SyncNecessaryRepositoryInterface $syncNecessaryRepository
     ) {
         $this->customerRepository = $customerRepository;
         $this->syncHistoryFactory = $syncHistoryFactory;
         $this->syncHistoryRepository = $syncHistoryRepository;
+        $this->syncNecessaryRepository = $syncNecessaryRepository;
     }
 
     /**
@@ -72,13 +81,25 @@ class SyncCustomers implements SyncCustomersInterface
             $page++;
         }
 
+        $target = new Target(Target::TARGET_CUSTOMER);
+
         $syncHistory = $this->syncHistoryFactory->newSyncHistory(
             $inputPort->providerId(),
             $inputPort->contractId(),
-            new Target(Target::TARGET_CUSTOMER)
+            $target
         );
 
         $this->syncHistoryRepository->save($syncHistory);
+
+        $syncNecessary = $this->syncNecessaryRepository->find(
+            $inputPort->providerId(),
+            $inputPort->contractId(),
+            $target
+        );
+
+        if ($syncNecessary) {
+            $this->syncNecessaryRepository->delete($syncNecessary);
+        }
 
         $outputPort->output($syncHistory);
     }
