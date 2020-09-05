@@ -19,8 +19,12 @@ class Customer
     private string $name;
     private string $kana;
     private string $email;
+    private string $phone;
     private CustomerSex $sex;
     private ?DateTimeInterface $birthday;
+    private ?DateTimeInterface $entryDate;
+    private ?DateTimeInterface $leaveDate;
+    private ?DateTimeInterface $lastComingDateTime;
     private string $storeId;
     private CustomerMailReceiveFlag $mailReceiveFlag;
     private CustomerStatus $customerStatus;
@@ -37,8 +41,12 @@ class Customer
      * @param string $name
      * @param string $kana
      * @param string $email
+     * @param string $phone
      * @param CustomerSex $sex
      * @param DateTimeInterface|null $birthday
+     * @param DateTimeInterface|null $entryDate
+     * @param DateTimeInterface|null $leaveDate
+     * @param DateTimeInterface|null $lastComingDateTime
      * @param string $storeId
      * @param CustomerMailReceiveFlag $mailReceiveFlag
      * @param CustomerStatus $customerStatus
@@ -53,8 +61,12 @@ class Customer
         string $name,
         string $kana,
         string $email,
+        string $phone,
         CustomerSex $sex,
         ?DateTimeInterface $birthday,
+        ?DateTimeInterface $entryDate,
+        ?DateTimeInterface $leaveDate,
+        ?DateTimeInterface $lastComingDateTime,
         string $storeId,
         CustomerMailReceiveFlag $mailReceiveFlag,
         CustomerStatus $customerStatus
@@ -68,8 +80,12 @@ class Customer
         $this->name = $name;
         $this->kana = $kana;
         $this->email = $email;
+        $this->phone = $phone;
         $this->sex = $sex;
         $this->birthday = $birthday;
+        $this->entryDate = $entryDate;
+        $this->leaveDate = $leaveDate;
+        $this->lastComingDateTime = $lastComingDateTime;
         $this->storeId = $storeId;
         $this->mailReceiveFlag = $mailReceiveFlag;
         $this->customerStatus = $customerStatus;
@@ -116,6 +132,30 @@ class Customer
     }
 
     /**
+     * @return DateTimeInterface|null
+     */
+    public function entryDate(): ?DateTimeInterface
+    {
+        return $this->entryDate;
+    }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function leaveDate(): ?DateTimeInterface
+    {
+        return $this->leaveDate;
+    }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function lastComingDateTime(): ?DateTimeInterface
+    {
+        return $this->lastComingDateTime;
+    }
+
+    /**
      * @return string
      */
     public function code(): string
@@ -137,6 +177,14 @@ class Customer
     public function email(): string
     {
         return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function phone(): string
+    {
+        return $this->phone;
     }
 
     /**
@@ -202,8 +250,12 @@ class Customer
             'name' => $this->name,
             'kana' => $this->kana,
             'email' => $this->email,
+            'phone' => $this->phone,
             'sex' => $this->sex->toInt(),
-            'birthday' => $this->birthday->format('Y/m/d H:i:s'),
+            'birthday' => $this->birthday->format('Y/m/d'),
+            'entry_date' => $this->entryDate->format('Y/m/d'),
+            'leave_date' => $this->leaveDate->format('Y/m/d'),
+            'last_coming_datetime' => $this->lastComingDateTime->format('Y/m/d H:i:s'),
             'store_id' => $this->storeId,
             'mail_receive_flag' => $this->mailReceiveFlag->toInt(),
             'status' => $this->customerStatus->toInt(),

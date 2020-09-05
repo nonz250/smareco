@@ -19,7 +19,12 @@ class Customer extends Model
         'name',
         'kana',
         'email',
+        'phone',
         'sex',
+        'birthday',
+        'entry_date',
+        'leave_date',
+        'last_coming_datetime',
         'mail_receive_flag',
         'status',
     ];

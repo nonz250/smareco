@@ -24,7 +24,12 @@ class CreateCustomersTable extends Migration
             $table->string('name');
             $table->string('kana');
             $table->string('email');
+            $table->string('phone');
             $table->string('sex');
+            $table->dateTime('birthday')->nullable();
+            $table->dateTime('entry_date')->nullable();
+            $table->dateTime('leave_date')->nullable();
+            $table->dateTime('last_coming_datetime')->nullable();
             $table->integer('mail_receive_flag');
             $table->integer('status');
             $table->timestamps();

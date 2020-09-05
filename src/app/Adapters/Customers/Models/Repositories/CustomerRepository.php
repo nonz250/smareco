@@ -93,7 +93,12 @@ class CustomerRepository implements CustomerRepositoryInterface
                 'name' => $customer->name(),
                 'kana' => $customer->kana(),
                 'email' => $customer->email(),
+                'phone' => $customer->phone(),
                 'sex' => $customer->sex()->toInt(),
+                'birthday' => $customer->birthday() ? $customer->birthday()->format('Y/m/d') : null,
+                'entry_date' => $customer->entryDate() ? $customer->entryDate()->format('Y/m/d') : null,
+                'leave_date' => $customer->leaveDate() ? $customer->leaveDate()->format('Y/m/d') : null,
+                'last_coming_datetime' => $customer->lastComingDateTime(),
                 'mail_receive_flag' => $customer->mailReceiveFlag()->toInt(),
                 'status' => $customer->customerStatus()->toInt(),
             ]);
