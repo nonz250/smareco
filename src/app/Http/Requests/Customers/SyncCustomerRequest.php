@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Customers;
 
+use App\Traits\GetProviderTrait;
 use App\Traits\GetSmaregiUserInfoTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Smareco\Customers\Command\UseCases\SyncCustomers\SyncCustomersInputPort;
@@ -10,7 +11,7 @@ use Smareco\Shared\Models\ValueObjects\AccessToken;
 
 class SyncCustomerRequest extends FormRequest implements SyncCustomersInputPort
 {
-    use GetSmaregiUserInfoTrait;
+    use GetSmaregiUserInfoTrait, GetProviderTrait;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -47,5 +48,10 @@ class SyncCustomerRequest extends FormRequest implements SyncCustomersInputPort
     public function contractId(): string
     {
         return $this->getSmaregiUserInfoSession()->getSmaregiUserInfo()->contractId();
+    }
+
+    public function providerId(): string
+    {
+        return $this->getProviderId();
     }
 }

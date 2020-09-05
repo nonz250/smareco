@@ -10,6 +10,11 @@ interface SyncCustomersInputPort
     /**
      * @return string
      */
+    public function providerId(): string;
+
+    /**
+     * @return string
+     */
     public function tokenType(): string;
 
     /**

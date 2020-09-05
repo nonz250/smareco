@@ -5,6 +5,9 @@ namespace Smareco\Customers\Command\UseCases\SyncCustomers;
 
 use Smareco\Customers\Models\Repositories\CustomerRepositoryInterface;
 use Smareco\Exceptions\SmarecoSpecificationExceptionInterface;
+use Smareco\Shared\Models\Factories\SyncHistoryFactoryInterface;
+use Smareco\Shared\Models\Repositories\SyncHistoryRepositoryInterface;
+use Smareco\Shared\Models\ValueObjects\Target;
 
 class SyncCustomers implements SyncCustomersInterface
 {
@@ -14,13 +17,30 @@ class SyncCustomers implements SyncCustomersInterface
     private CustomerRepositoryInterface $customerRepository;
 
     /**
+     * @var SyncHistoryFactoryInterface
+     */
+    private SyncHistoryFactoryInterface $syncHistoryFactory;
+
+    /**
+     * @var SyncHistoryRepositoryInterface
+     */
+    private SyncHistoryRepositoryInterface $syncHistoryRepository;
+
+    /**
      * SyncCustomers constructor.
      *
      * @param CustomerRepositoryInterface $customerRepository
+     * @param SyncHistoryFactoryInterface $syncHistoryFactory
+     * @param SyncHistoryRepositoryInterface $syncHistoryRepository
      */
-    public function __construct(CustomerRepositoryInterface $customerRepository)
-    {
+    public function __construct(
+        CustomerRepositoryInterface $customerRepository,
+        SyncHistoryFactoryInterface $syncHistoryFactory,
+        SyncHistoryRepositoryInterface $syncHistoryRepository
+    ) {
         $this->customerRepository = $customerRepository;
+        $this->syncHistoryFactory = $syncHistoryFactory;
+        $this->syncHistoryRepository = $syncHistoryRepository;
     }
 
     /**
@@ -51,6 +71,14 @@ class SyncCustomers implements SyncCustomersInterface
 
             $page++;
         }
+
+        $syncHistory = $this->syncHistoryFactory->newSyncHistory(
+            $inputPort->providerId(),
+            $inputPort->contractId(),
+            new Target(Target::TARGET_CUSTOMER)
+        );
+
+        $this->syncHistoryRepository->save($syncHistory);
 
         $outputPort->output();
     }

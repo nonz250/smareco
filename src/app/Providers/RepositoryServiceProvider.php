@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Adapters\Customers\Models\Repositories\CustomerRepository;
+use App\Adapters\Customers\Models\Repositories\SyncHistoryRepository;
 use App\Adapters\Shared\Models\Repositories\SmaregiTokenRepository;
 use App\Adapters\Shared\Models\Repositories\SmaregiUserInfoRepository;
 use App\Adapters\Shared\Models\Repositories\SmaregiUserTokenRepository;
@@ -12,6 +13,7 @@ use Smareco\Customers\Models\Repositories\CustomerRepositoryInterface;
 use Smareco\Shared\Models\Repositories\SmaregiTokenRepositoryInterface;
 use Smareco\Shared\Models\Repositories\SmaregiUserInfoRepositoryInterface;
 use Smareco\Shared\Models\Repositories\SmaregiUserTokenRepositoryInterface;
+use Smareco\Shared\Models\Repositories\SyncHistoryRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SmaregiUserInfoRepositoryInterface::class, SmaregiUserInfoRepository::class);
         $this->app->bind(SmaregiTokenRepositoryInterface::class, SmaregiTokenRepository::class);
         $this->app->bind(CustomerRepositoryInterface::class, CustomerRepository::class);
+        $this->app->bind(SyncHistoryRepositoryInterface::class, SyncHistoryRepository::class);
     }
 
     /**

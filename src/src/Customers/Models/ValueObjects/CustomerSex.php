@@ -7,7 +7,7 @@ use Smareco\Foundation\Enum;
 
 class CustomerSex extends Enum
 {
-    private const SEX_UNKNOWN = 0;
-    private const SEX_MAN = 1;
-    private const SEX_WOMAN = 2;
+    public const SEX_UNKNOWN = 0;
+    public const SEX_MAN = 1;
+    public const SEX_WOMAN = 2;
 }

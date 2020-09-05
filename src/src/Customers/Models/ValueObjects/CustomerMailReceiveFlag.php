@@ -7,6 +7,6 @@ use Smareco\Foundation\Enum;
 
 class CustomerMailReceiveFlag extends Enum
 {
-    private const DISABLED = 0;
-    private const ENABLE = 1;
+    public const DISABLED = 0;
+    public const ENABLE = 1;
 }

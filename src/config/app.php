@@ -171,6 +171,7 @@ return [
         App\Providers\UseCaseServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\ReadModelServiceProvider::class,
+        App\Providers\FactoryServiceProvider::class,
 
     ],
 
