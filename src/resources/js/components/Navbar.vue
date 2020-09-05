@@ -24,6 +24,14 @@
     >
       <div class="navbar-nav mr-auto">
         <router-link
+          v-if="$store.getters['auth/logged_in']"
+          :to="{ name: 'customer.index' }"
+          class="nav-link"
+          :active-class="'active'"
+        >
+          会員一覧<span class="sr-only">(current)</span>
+        </router-link>
+        <router-link
           :to="{ name: 'term' }"
           class="nav-link"
           :active-class="'active'"

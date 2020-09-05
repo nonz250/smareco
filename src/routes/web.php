@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Actions\LogoutAction;
+use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('logout', LogoutAction::class);
 
 Route::view('home', 'pages.vue')->name('home');
+
+Route::middleware(AuthMiddleware::class)->group(static function () {
+    Route::view('customer', 'pages.vue')->name('customer.index');
+});
