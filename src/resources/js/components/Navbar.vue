@@ -25,6 +25,14 @@
       <div class="navbar-nav mr-auto">
         <router-link
           v-if="$store.getters['auth/logged_in']"
+          :to="{ name: 'home' }"
+          class="nav-link"
+          :active-class="'active'"
+        >
+          ホーム<span class="sr-only">(current)</span>
+        </router-link>
+        <router-link
+          v-if="$store.getters['auth/logged_in']"
           :to="{ name: 'customer.index' }"
           class="nav-link"
           :active-class="'active'"
