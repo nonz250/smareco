@@ -64,9 +64,14 @@
       <success-button
         v-if="$store.getters['auth/logged_in']"
         outline
+        :loading="loading"
+        :disabled="loading"
         @click="syncCustomer"
       >
-        会員同期<span class="sr-only">(current)</span>
+        会員同期 <span
+          v-if="$store.getters['syncHistory/syncHistory']"
+          class="badge badge-success text-wrap"
+        >({{ moment($store.getters['syncHistory/syncHistory'].sync_datetime).format('MM/DD HH:mm') }})</span><span class="sr-only">(current)</span>
       </success-button>
       <router-link
         v-if="!$store.getters['auth/logged_in']"
@@ -100,13 +105,16 @@
 import LightButton from '../atoms/LightButton';
 import SuccessButton from '../atoms/SuccessButton';
 import SyncCustomer from '../src/Customers/UseCases/SyncCustomer';
+import GetSyncHistory from '../src/SyncHistory/UseCases/GetSyncHistory';
 
 export default {
   name: 'Navbar',
   components: {SuccessButton, LightButton},
   data() {
     return {
-      syncCustomerUseCase: new SyncCustomer()
+      loading: false,
+      syncCustomerUseCase: new SyncCustomer(),
+      getSyncHistoryUseCase: new GetSyncHistory(),
     };
   },
   computed: {
@@ -114,19 +122,39 @@ export default {
       return document.getElementsByName('csrf-token').item(0).content;
     }
   },
+  async created() {
+    await Promise.all([this.fetchSyncHistory()]);
+  },
   methods: {
     navClick() {
       $('.navbar-collapse').collapse('hide');
     },
     async syncCustomer() {
+      this.loading = true;
       try {
-        await this.syncCustomerUseCase.process();
+        await this.$store.dispatch('syncHistory/setSyncHistory', await this.syncCustomerUseCase.process());
       } catch (e) {
         await this.$store.dispatch('toast/setToast', true);
         await this.$store.dispatch('toast/setContent', {
           title: 'エラー',
           messages: [e.exception],
         });
+      } finally {
+        this.loading = false;
+      }
+    },
+    async fetchSyncHistory() {
+      this.loading = true;
+      try {
+        await this.$store.dispatch('syncHistory/setSyncHistory', await this.getSyncHistoryUseCase.process());
+      } catch (e) {
+        await this.$store.dispatch('toast/setToast', true);
+        await this.$store.dispatch('toast/setContent', {
+          title: 'エラー',
+          messages: [e.exception],
+        });
+      } finally {
+        this.loading = false;
       }
     }
   }

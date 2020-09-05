@@ -1,4 +1,11 @@
+import moment from 'moment';
+
 export default {
+  data() {
+    return {
+      moment: moment,
+    };
+  },
   methods: {
     generateUuid() {
       let chars = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.split('');
