@@ -5,9 +5,11 @@ namespace App\Providers;
 
 use App\Adapters\Customers\Models\ReadModels\GetCustomer;
 use App\Adapters\Shared\Models\ReadModels\GetSyncHistory;
+use App\Adapters\Shared\Models\ReadModels\GetSyncNecessary;
 use Illuminate\Support\ServiceProvider;
 use Smareco\Customers\Query\GetCustomerQuery;
 use Smareco\Shared\Models\Queries\GetSyncHistoryQuery;
+use Smareco\Shared\Models\Queries\GetSyncNecessaryQuery;
 
 class ReadModelServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,7 @@ class ReadModelServiceProvider extends ServiceProvider
     {
         $this->app->bind(GetCustomerQuery::class, GetCustomer::class);
         $this->app->bind(GetSyncHistoryQuery::class, GetSyncHistory::class);
+        $this->app->bind(GetSyncNecessaryQuery::class, GetSyncNecessary::class);
     }
 
     /**

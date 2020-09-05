@@ -75,4 +75,15 @@ class SyncNecessary
     {
         return $this->field;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => (string) $this->id,
+            'provider_id' => (string) $this->providerId,
+            'contract_id' => (string) $this->contractId,
+            'target' => (string) $this->target,
+            'field' => (string) $this->field,
+        ];
+    }
 }
