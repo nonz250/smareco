@@ -83,11 +83,11 @@ class SyncHistory
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
-            'provider_id' => $this->providerId,
-            'contract_id' => $this->contractId,
+            'id' => (string) $this->id,
+            'provider_id' => (string) $this->providerId,
+            'contract_id' => (string) $this->contractId,
             'target' => (string) $this->target,
-            'sync_datetime' => $this->syncDatetime,
+            'sync_datetime' => $this->syncDatetime->format('Y/m/d H:i:s'),
         ];
     }
 }

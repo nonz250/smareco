@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Adapters\Shared\Models\Factories;
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Smareco\Shared\Models\Entities\SyncHistory;
 use Smareco\Shared\Models\Factories\SyncHistoryFactoryInterface;
