@@ -29,6 +29,7 @@
         "eslint": "^7.7.0",
         "eslint-config-vue": "^2.0.2",
         "eslint-plugin-vue": "^6.2.2",
+        "moment": "^2.27.0",
         "vue-router": "^3.4.3",
         "vuex": "^3.5.1"
     }
