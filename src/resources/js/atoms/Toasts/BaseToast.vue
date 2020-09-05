@@ -2,7 +2,7 @@
   <div
     aria-live="polite"
     aria-atomic="true"
-    class="position-fixed fixed-top w-100 h-100 d-flex justify-content-center align-items-center"
+    class="position-fixed fixed-top w-100 h-100 d-flex justify-content-center align-items-center bg-deep-transparent bg-light"
     :style="!toast ? 'z-index: -1;' : 'cursor: not-allowed;'"
   >
     <div
