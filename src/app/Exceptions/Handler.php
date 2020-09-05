@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 use Smareco\Exceptions\SmarecoSpecificationExceptionInterface;
 use Smareco\Exceptions\UnauthorizedException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -55,6 +56,15 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof ValidationException) {
+            return parent::render($request, $exception);
+        }
+
+        if ($exception instanceof NotFoundHttpException) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'このページはありません。',
+                ], (int) $exception->getStatusCode());
+            }
             return parent::render($request, $exception);
         }
 

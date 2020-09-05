@@ -106,6 +106,7 @@ import LightButton from '../atoms/LightButton';
 import SuccessButton from '../atoms/SuccessButton';
 import SyncCustomer from '../src/Customers/UseCases/SyncCustomer';
 import GetSyncHistory from '../src/SyncHistory/UseCases/GetSyncHistory';
+import GetSyncNecessary from '../src/SyncNecessary/UseCases/GetSyncNecessary';
 
 export default {
   name: 'Navbar',
@@ -115,6 +116,7 @@ export default {
       loading: false,
       syncCustomerUseCase: new SyncCustomer(),
       getSyncHistoryUseCase: new GetSyncHistory(),
+      getSyncNecessary: new GetSyncNecessary(),
     };
   },
   computed: {
@@ -123,7 +125,7 @@ export default {
     }
   },
   async created() {
-    await Promise.all([this.fetchSyncHistory()]);
+    await Promise.all([this.fetchSyncHistory(), this.fetchSyncNecessary()]);
   },
   methods: {
     navClick() {
@@ -155,6 +157,25 @@ export default {
         });
       } finally {
         this.loading = false;
+      }
+    },
+    async fetchSyncNecessary() {
+      try {
+        const syncNecessary = await this.getSyncNecessary.process();
+        await this.$store.dispatch('syncNecessary/setSyncNecessary', syncNecessary);
+        if (syncNecessary.length) {
+          await this.$store.dispatch('toast/setToast', true);
+          await this.$store.dispatch('toast/setContent', {
+            title: '同期',
+            messages: ['新しいデータがあります。同期ボタンを押してデータを更新することをおすすめします。'],
+          });
+        }
+      } catch (e) {
+        await this.$store.dispatch('toast/setToast', true);
+        await this.$store.dispatch('toast/setContent', {
+          title: 'エラー',
+          messages: [e.exception],
+        });
       }
     }
   }
