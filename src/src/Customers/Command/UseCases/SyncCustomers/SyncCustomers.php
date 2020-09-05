@@ -80,6 +80,6 @@ class SyncCustomers implements SyncCustomersInterface
 
         $this->syncHistoryRepository->save($syncHistory);
 
-        $outputPort->output();
+        $outputPort->output($syncHistory);
     }
 }

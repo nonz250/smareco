@@ -51,6 +51,6 @@ class SyncCustomerAction extends Controller
             DB::rollBack();
             throw $e;
         }
-        return response()->json([], 204);
+        return response()->json($response->syncHistory()->toArray());
     }
 }
