@@ -86,7 +86,6 @@ class CustomerRepository implements CustomerRepositoryInterface
                 'contract_id' => $customer->contractId(),
                 'customer_id' => $customer->customerId(),
             ])->fill([
-                'id' => $customer->id(),
                 'customer_code' => $customer->code(),
                 'store_id' => $customer->storeId(),
                 'rank' => $customer->rank(),
@@ -102,6 +101,10 @@ class CustomerRepository implements CustomerRepositoryInterface
                 'mail_receive_flag' => $customer->mailReceiveFlag()->toInt(),
                 'status' => $customer->customerStatus()->toInt(),
             ]);
+
+        if (!$customerModel->getAttribute('id')) {
+            $customerModel->setAttribute('id', $customer->id());
+        }
 
         if (!$customerModel->save()) {
             throw new RuntimeException('会員情報の保存に失敗しました。');
