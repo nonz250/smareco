@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SyncNecessary extends Model
 {
+    public $incrementing = false;
     protected $table = 'sync_necessaries';
     protected $fillable = [
         'id',

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
+    public $incrementing = false;
     protected $table = 'customers';
     protected $fillable = [
         'id',

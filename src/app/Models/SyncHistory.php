@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SyncHistory extends Model
 {
+    public $incrementing = false;
     protected $table = 'sync_histories';
     protected $fillable = [
         'id',
