@@ -4,6 +4,14 @@
       :to="{ name: 'top' }"
       class="navbar-brand"
     >
+      <img
+        src="/safari-pinned-tab.svg"
+        width="30"
+        height="30"
+        class="d-inline-block align-top bg-white"
+        alt=""
+        loading="lazy"
+      >
       スマレコ
     </router-link>
     <button

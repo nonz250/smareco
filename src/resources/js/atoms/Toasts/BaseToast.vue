@@ -15,7 +15,12 @@
       style="cursor: auto;"
     >
       <div class="toast-header">
-        <!--<img src="..." class="rounded mr-2" alt="...">-->
+        <img
+          src="/android-chrome-512x512.png"
+          class="rounded mr-2"
+          style="width: 16px; height: 16px;"
+          alt="icon"
+        >
         <strong class="mr-auto">{{ title }}</strong>
         <small>{{ time }}</small>
         <button
