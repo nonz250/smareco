@@ -89,7 +89,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof Throwable) {
             if ($request->expectsJson()) {
                 return response()->json([
-                    'message' => (string) $exception->getMessage(),
+                    'message' => (string) 'サーバーエラーが発生しました。',
                 ], 500);
             }
         }
