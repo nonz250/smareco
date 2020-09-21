@@ -7,9 +7,10 @@ use App\Traits\GetProviderTrait;
 use App\Traits\GetSmaregiUserInfoTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Smareco\Customers\Command\UseCases\SyncCustomers\SyncCustomersInputPort;
+use Smareco\Customers\Command\UseCases\SyncTransaction\SyncTransactionInputPort;
 use Smareco\Shared\Models\ValueObjects\AccessToken;
 
-class SyncCustomerRequest extends FormRequest implements SyncCustomersInputPort
+class SyncCustomerRequest extends FormRequest implements SyncCustomersInputPort, SyncTransactionInputPort
 {
     use GetSmaregiUserInfoTrait, GetProviderTrait;
 

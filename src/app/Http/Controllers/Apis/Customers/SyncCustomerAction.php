@@ -9,6 +9,7 @@ use App\Http\Requests\Customers\SyncCustomerRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Smareco\Customers\Command\UseCases\SyncCustomers\SyncCustomersInterface;
+use Smareco\Customers\Command\UseCases\SyncTransaction\SyncTransactionInterface;
 use Smareco\Exceptions\SmarecoSpecificationExceptionInterface;
 use Throwable;
 
@@ -20,13 +21,20 @@ class SyncCustomerAction extends Controller
     private SyncCustomersInterface $syncCustomers;
 
     /**
+     * @var SyncTransactionInterface
+     */
+    private SyncTransactionInterface $syncTransaction;
+
+    /**
      * SyncCustomerAction constructor.
      *
      * @param SyncCustomersInterface $syncCustomers
+     * @param SyncTransactionInterface $syncTransaction
      */
-    public function __construct(SyncCustomersInterface $syncCustomers)
+    public function __construct(SyncCustomersInterface $syncCustomers, SyncTransactionInterface $syncTransaction)
     {
         $this->syncCustomers = $syncCustomers;
+        $this->syncTransaction = $syncTransaction;
     }
 
     /**
@@ -43,6 +51,7 @@ class SyncCustomerAction extends Controller
         DB::beginTransaction();
         try {
             $this->syncCustomers->process($request, $response);
+            $this->syncTransaction->process($request, $response);
             DB::commit();
         } catch (SmarecoSpecificationExceptionInterface $e) {
             DB::rollBack();

@@ -6,6 +6,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Smareco\Customers\Command\UseCases\SyncCustomers\SyncCustomers;
 use Smareco\Customers\Command\UseCases\SyncCustomers\SyncCustomersInterface;
+use Smareco\Customers\Command\UseCases\SyncTransaction\SyncTransaction;
+use Smareco\Customers\Command\UseCases\SyncTransaction\SyncTransactionInterface;
 use Smareco\SmaregiToken\Command\UseCases\GenerateSmaregiToken\GenerateSmaregiToken;
 use Smareco\SmaregiToken\Command\UseCases\GenerateSmaregiToken\GenerateSmaregiTokenInterface;
 use Smareco\SmaregiUserInfo\Command\UseCases\DeleteSmaregiUserInfo\DeleteSmaregiUserInfo;
@@ -32,6 +34,7 @@ class UseCaseServiceProvider extends ServiceProvider
         $this->app->bind(GenerateSmaregiTokenInterface::class, GenerateSmaregiToken::class);
         $this->app->bind(SyncCustomersInterface::class, SyncCustomers::class);
         $this->app->bind(SmaregiWebhookInterface::class, SmaregiWebhook::class);
+        $this->app->bind(SyncTransactionInterface::class, SyncTransaction::class);
     }
 
     /**

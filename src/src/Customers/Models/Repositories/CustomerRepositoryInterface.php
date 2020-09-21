@@ -32,4 +32,11 @@ interface CustomerRepositoryInterface
      * @return Customer
      */
     public function saveToStorage(Customer $customer): Customer;
+
+    /**
+     * @param string $providerId
+     * @param string $contractId
+     * @return CustomerCollection
+     */
+    public function findByContractId(string $providerId, string $contractId): CustomerCollection;
 }

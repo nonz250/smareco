@@ -59,6 +59,34 @@ class CustomerCollection extends Collection
         return new self($array);
     }
 
+    public static function fromStorage(array $items)
+    {
+        $array = [];
+        foreach ($items as $item) {
+            $array[] = new Customer(
+                (string) $item['id'],
+                (string) $item['provider_id'],
+                (string) $item['contract_id'],
+                (string) $item['customer_id'],
+                (string) $item['customer_code'],
+                (string) $item['rank'],
+                (string) $item['name'],
+                (string) $item['kana'],
+                (string) $item['email'],
+                (string) $item['phone'],
+                new CustomerSex((int) $item['sex']),
+                $item['birthday'] ? DateTime::createFromFormat('Y-m-d H:i:s', $item['birthday']) : null,
+                $item['entry_date'] ? DateTime::createFromFormat('Y-m-d H:i:s', $item['entry_date']) : null,
+                $item['leave_date'] ? DateTime::createFromFormat('Y-m-d H:i:s', $item['leave_date']) : null,
+                $item['last_coming_datetime'] ? DateTime::createFromFormat('Y-m-d H:i:s', $item['last_coming_datetime']) : null,
+                (string) $item['store_id'],
+                new CustomerMailReceiveFlag((int) $item['mail_receive_flag']),
+                new CustomerStatus((int) $item['status']),
+            );
+        }
+        return new self($array);
+    }
+
     protected function validate($item): void
     {
         if (!$item instanceof Customer) {

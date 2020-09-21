@@ -4,9 +4,10 @@ declare(strict_types=1);
 namespace App\Adapters\Customers\SyncCustomer;
 
 use Smareco\Customers\Command\UseCases\SyncCustomers\SyncCustomersOutputPort;
+use Smareco\Customers\Command\UseCases\SyncTransaction\SyncTransactionOutputPort;
 use Smareco\Shared\Models\Entities\SyncHistory;
 
-class SyncCustomerOutput implements SyncCustomersOutputPort
+class SyncCustomerOutput implements SyncCustomersOutputPort, SyncTransactionOutputPort
 {
     /**
      * @var SyncHistory

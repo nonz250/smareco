@@ -112,4 +112,13 @@ class CustomerRepository implements CustomerRepositoryInterface
 
         return $customer;
     }
+
+    public function findByContractId(string $providerId, string $contractId): CustomerCollection
+    {
+        $customers = $this->customer->newQuery()
+            ->where('provider_id', $providerId)
+            ->where('contract_id', $contractId)
+            ->get();
+        return CustomerCollection::fromStorage($customers->toArray());
+    }
 }
