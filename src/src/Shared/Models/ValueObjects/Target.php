@@ -8,4 +8,5 @@ use Smareco\Foundation\Enum;
 class Target extends Enum
 {
     public const TARGET_CUSTOMER = 'customer';
+    public const TARGET_TRANSACTION = 'transaction';
 }

@@ -9,9 +9,12 @@ use Smareco\Shared\Models\Factories\SyncHistoryFactoryInterface;
 use Smareco\Shared\Models\Repositories\SyncHistoryRepositoryInterface;
 use Smareco\Shared\Models\Repositories\SyncNecessaryRepositoryInterface;
 use Smareco\Shared\Models\ValueObjects\Target;
+use Smareco\Shared\Traits\SyncHistoryTrait;
 
 class SyncCustomers implements SyncCustomersInterface
 {
+    use SyncHistoryTrait;
+
     /**
      * @var CustomerRepositoryInterface
      */
@@ -81,25 +84,11 @@ class SyncCustomers implements SyncCustomersInterface
             $page++;
         }
 
-        $target = new Target(Target::TARGET_CUSTOMER);
-
-        $syncHistory = $this->syncHistoryFactory->newSyncHistory(
+        $syncHistory = $this->registerSyncHistory(
             $inputPort->providerId(),
             $inputPort->contractId(),
-            $target
+            new Target(Target::TARGET_CUSTOMER)
         );
-
-        $this->syncHistoryRepository->save($syncHistory);
-
-        $syncNecessary = $this->syncNecessaryRepository->find(
-            $inputPort->providerId(),
-            $inputPort->contractId(),
-            $target
-        );
-
-        if ($syncNecessary) {
-            $this->syncNecessaryRepository->delete($syncNecessary);
-        }
 
         $outputPort->output($syncHistory);
     }
