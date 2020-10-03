@@ -127,16 +127,21 @@ class TransactionRepository implements TransactionRepositoryInterface
         }
 
         $transactionDetails = $transactionHead->details();
+
+        $this->transactionDetail->newQuery()
+            ->where('transaction_head_id', $transactionHeadModel->getAttribute('id'))
+            ->delete();
+
         /** @var TransactionDetail $transactionDetail */
         foreach ($transactionDetails as $transactionDetail) {
             $result = $this->transactionDetail->newQuery()
                 ->firstOrNew([
                     'transaction_head_id' => $transactionHeadModel->getAttribute('id'),
+                    'product_id' => $transactionDetail->productId(),
                 ])->fill([
                     'provider_transaction_head_id' => $transactionHead->transactionHeadId(),
                     'product_name' => $transactionDetail->productName(),
                     'product_code' => $transactionDetail->productCode(),
-                    'product_id' => $transactionDetail->productId(),
                     'price' => $transactionDetail->price(),
                     'quantity' => $transactionDetail->quantity(),
                 ])->save();

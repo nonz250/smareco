@@ -17,4 +17,5 @@ class TransactionDetail extends Model
         'price',
         'quantity',
     ];
+    public $incrementing = false;
 }
