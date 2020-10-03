@@ -172,6 +172,7 @@ return [
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\ReadModelServiceProvider::class,
         App\Providers\FactoryServiceProvider::class,
+        App\Providers\DomainServiceProvider::class,
 
     ],
 

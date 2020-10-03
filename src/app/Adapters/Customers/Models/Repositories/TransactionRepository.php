@@ -6,7 +6,9 @@ namespace App\Adapters\Customers\Models\Repositories;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use Smareco\Customers\Models\Collection\TransactionDetailCollection;
 use Smareco\Customers\Models\Collection\TransactionHeadCollection;
 use Smareco\Customers\Models\Entities\TransactionDetail;
 use Smareco\Customers\Models\Entities\TransactionHead;
@@ -97,7 +99,7 @@ class TransactionRepository implements TransactionRepositoryInterface
             $responseBody[$key]['contractId'] = (string) $contractId;
             $responseBody[$key]['details'] = $detailResponseBody['details'];
         }
-        return TransactionHeadCollection::fromArray($responseBody);
+        return TransactionHeadCollection::fromApiArray($responseBody);
     }
 
     public function save(TransactionHead $transactionHead): void
@@ -149,5 +151,14 @@ class TransactionRepository implements TransactionRepositoryInterface
                 throw new SmarecoSpecificationException('取引情報の保存に失敗しました。');
             }
         }
+    }
+
+    public function findDetailByContractId(string $contractId): TransactionHeadCollection
+    {
+        $transactions = $this->transactionHead->newQuery()
+            ->with(['transaction_detail'])
+            ->where('contract_id', $contractId)
+            ->get();
+        return TransactionHeadCollection::fromArray($transactions->toArray());
     }
 }

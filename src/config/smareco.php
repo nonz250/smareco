@@ -25,4 +25,12 @@ return [
     'providers' => [
         'smaregi' => 'smaregi',
     ],
+    'ai' => [
+        'api_key' => env('AI_API_KEY'),
+        'notification_url' => env('APP_URL') . env('AI_NOTIFICATION_ENDPOINT'),
+        'host' => env('AI_HOST'),
+        'get_ai_post_endpoint' => env('AI_HOST') . env('AI_POST_ENDPOINT'),
+        'analyze_endpoint' => env('AI_HOST') . env('AI_ANALYZE_ENDPOINT'),
+        'get_analyze_status_endpoint' => env('AI_HOST') . env('AI_ANALYZE_STATUS_ENDPOINT'),
+    ],
 ];

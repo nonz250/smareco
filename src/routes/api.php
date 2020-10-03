@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Apis\AnalyzeTransaction\AnalyzeTransactionAction;
 use App\Http\Controllers\Apis\Customers\SyncCustomerAction;
 use App\Http\Controllers\Apis\Customers\GetCustomersAction;
 use App\Http\Controllers\Apis\SmaregiUserInfo\GetSmaregiUserInfoAction;
@@ -35,5 +36,22 @@ Route::middleware(GenerateApiTokenMiddleware::class)
         Route::prefix('sync_necessary')
             ->group(static function () {
                 Route::get('/', GetSyncNecessaryAction::class);
+            });
+        Route::prefix('analyze')
+            ->group(static function () {
+                Route::post('/', AnalyzeTransactionAction::class);
+            });
+    });
+
+Route::prefix('webhook')
+    ->group(static function () {
+        Route::prefix('ai')
+            ->group(static function () {
+                Route::prefix('notification')
+                    ->group(static function () {
+                        Route::get('/', function (\Illuminate\Http\Request $request) {
+                            logger($request->all());
+                        });
+                    });
             });
     });

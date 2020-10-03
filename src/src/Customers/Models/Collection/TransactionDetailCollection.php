@@ -32,6 +32,21 @@ class TransactionDetailCollection extends Collection
         $array = [];
         foreach ($items as $item) {
             $array[] = new TransactionDetail(
+                (string) $item['product_id'],
+                (string) $item['product_code'],
+                (string) $item['product_name'],
+                (int) $item['price'],
+                (int) $item['quantity'],
+            );
+        }
+        return new self($array);
+    }
+
+    public static function fromApiArray(array $items)
+    {
+        $array = [];
+        foreach ($items as $item) {
+            $array[] = new TransactionDetail(
                 (string) $item['productId'],
                 (string) $item['productCode'],
                 (string) $item['productName'],

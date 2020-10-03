@@ -35,6 +35,29 @@ class TransactionHeadCollection extends Collection
         foreach ($items as $item) {
             $array[] = new TransactionHead(
                 (string) $item['id'],
+                (string) $item['provider_id'],
+                (string) $item['contract_id'],
+                (string) $item['transaction_head_id'],
+                DateTime::createFromFormat('Y-m-d H:i:s', (string) $item['transaction_datetime']),
+                new CancelDivision((int) $item['cancel_division']),
+                (int) $item['total'],
+                (int) $item['point_discount'],
+                (int) $item['amount'],
+                (string) $item['store_id'],
+                (string) $item['customer_id'],
+                (string) $item['customer_code'],
+                TransactionDetailCollection::fromArray($item['transaction_detail'])
+            );
+        }
+        return new self($array);
+    }
+
+    public static function fromApiArray(array $items)
+    {
+        $array = [];
+        foreach ($items as $item) {
+            $array[] = new TransactionHead(
+                (string) $item['id'],
                 (string) $item['providerId'],
                 (string) $item['contractId'],
                 (string) $item['transactionHeadId'],
@@ -46,7 +69,7 @@ class TransactionHeadCollection extends Collection
                 (string) $item['storeId'],
                 (string) $item['customerId'],
                 (string) $item['customerCode'],
-                TransactionDetailCollection::fromArray($item['details'])
+                TransactionDetailCollection::fromApiArray($item['details'])
             );
         }
         return new self($array);

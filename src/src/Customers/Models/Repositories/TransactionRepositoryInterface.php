@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Smareco\Customers\Models\Repositories;
 
+use Smareco\Customers\Models\Collection\TransactionDetailCollection;
 use Smareco\Customers\Models\Collection\TransactionHeadCollection;
 use Smareco\Customers\Models\Entities\TransactionHead;
 use Smareco\Exceptions\SmarecoSpecificationExceptionInterface;
@@ -17,7 +18,7 @@ interface TransactionRepositoryInterface
      * @param string $contractId
      * @param int $page
      * @param int $length
-     *@throws SmarecoSpecificationExceptionInterface
+     * @throws SmarecoSpecificationExceptionInterface
      * @return TransactionHeadCollection
      */
     public function findTransactionByCustomerCodeFromApi(
@@ -34,4 +35,6 @@ interface TransactionRepositoryInterface
      * @throws SmarecoSpecificationExceptionInterface
      */
     public function save(TransactionHead $transactionHead): void;
+
+    public function findDetailByContractId(string $contractId): TransactionHeadCollection;
 }

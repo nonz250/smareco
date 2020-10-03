@@ -33,12 +33,14 @@ import PrimaryButton from '../atoms/PrimaryButton';
 import Heading from '../atoms/Heading/Heading';
 import SuccessButton from '../atoms/SuccessButton';
 import SyncCustomer from '../src/Customers/UseCases/SyncCustomer';
+import AnalyzeTransaction from '../src/AnalyzeTransaction/UseCases/AnalyzeTransaction';
 export default {
   name: 'Home',
   components: {SuccessButton, Heading, PrimaryButton},
   data() {
     return {
       syncCustomerUseCase: new SyncCustomer(),
+      analyzeTransactionUseCase: new AnalyzeTransaction(),
       loading: false,
     };
   },
@@ -58,10 +60,23 @@ export default {
       }
     },
     async analyze() {
+      this.loading = true;
+      try {
+        await this.analyzeTransactionUseCase.process();
+      } catch (e) {
+        await this.$store.dispatch('toast/setToast', true);
+        await this.$store.dispatch('toast/setContent', {
+          title: 'エラー',
+          messages: [e.exception],
+        });
+        return;
+      } finally {
+        this.loading = false;
+      }
       await this.$store.dispatch('toast/setToast', true);
       await this.$store.dispatch('toast/setContent', {
         title: 'スマレコ',
-        messages: ['現在準備中です。'],
+        messages: ['演算には時間がかかります。しばらくお待ち下さい。'],
       });
     }
   }
