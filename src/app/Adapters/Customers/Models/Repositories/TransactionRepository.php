@@ -114,7 +114,7 @@ class TransactionRepository implements TransactionRepositoryInterface
                 'point_discount' => $transactionHead->pointDiscount(),
                 'amount' => $transactionHead->amount(),
                 'store_id' => $transactionHead->storeId(),
-                'customer_id' => $transactionHead->contractId(),
+                'customer_id' => $transactionHead->customerId(),
                 'customer_code' => $transactionHead->customerCode(),
             ]);
 
