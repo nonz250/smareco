@@ -42,16 +42,3 @@ Route::middleware(GenerateApiTokenMiddleware::class)
                 Route::post('/', AnalyzeTransactionAction::class);
             });
     });
-
-Route::prefix('webhook')
-    ->group(static function () {
-        Route::prefix('ai')
-            ->group(static function () {
-                Route::prefix('notification')
-                    ->group(static function () {
-                        Route::get('/', function (\Illuminate\Http\Request $request) {
-                            logger($request->all());
-                        });
-                    });
-            });
-    });

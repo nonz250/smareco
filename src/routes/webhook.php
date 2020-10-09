@@ -11,3 +11,13 @@ Route::middleware(WebhookMiddleware::class)
                 Route::post('/', SmaregiWebhookAction::class);
             });
     });
+
+Route::prefix('ai')
+    ->group(static function () {
+        Route::prefix('notification')
+            ->group(static function () {
+                Route::get('/', function (\Illuminate\Http\Request $request) {
+                    logger($request->all());
+                });
+            });
+    });
