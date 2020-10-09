@@ -64,6 +64,6 @@ class AnalyzeTransactionRequest extends FormRequest implements CreateProductPurc
         $query = http_build_query([
             'contract_id' => $this->contractId(),
         ]);
-        return (string) config('smareco.ai.notification_url'). '?'. $query;
+        return (string) config('smareco.ai.notification_url') . '?' . $query;
     }
 }

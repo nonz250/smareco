@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
+use App\Http\Controllers\Apis\Notification\AINotificationAction;
 use App\Http\Controllers\Apis\SmaregiWebhook\SmaregiWebhookAction;
+use App\Http\Middleware\PublicWebhookMiddleware;
 use App\Http\Middleware\WebhookMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -12,12 +15,13 @@ Route::middleware(WebhookMiddleware::class)
             });
     });
 
-Route::prefix('ai')
+Route::middleware(PublicWebhookMiddleware::class)
     ->group(static function () {
-        Route::prefix('notification')
+        Route::prefix('ai')
             ->group(static function () {
-                Route::get('/', function (\Illuminate\Http\Request $request) {
-                    logger($request->all());
-                });
+                Route::prefix('notification')
+                    ->group(static function () {
+                        Route::get('/', AINotificationAction::class);
+                    });
             });
     });
