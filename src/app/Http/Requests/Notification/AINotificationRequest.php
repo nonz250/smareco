@@ -5,8 +5,9 @@ namespace App\Http\Requests\Notification;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Smareco\AIProcessHistory\Command\UseCases\SaveAIProcessHistory\SaveAIProcessHistoryInputPort;
+use Smareco\Customers\Command\UseCases\DownloadAnalyzedCsv\DownloadAnalyzedCsvInputPort;
 
-class AINotificationRequest extends FormRequest implements SaveAIProcessHistoryInputPort
+class AINotificationRequest extends FormRequest implements SaveAIProcessHistoryInputPort, DownloadAnalyzedCsvInputPort
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -45,5 +46,10 @@ class AINotificationRequest extends FormRequest implements SaveAIProcessHistoryI
     public function processText(): string
     {
         return $this->get('text', '') ?? '';
+    }
+
+    public function apiKey(): string
+    {
+        return (string) config('smareco.ai.api_key', '') ?? '';
     }
 }

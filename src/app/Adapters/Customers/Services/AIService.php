@@ -142,14 +142,51 @@ class AIService implements AIServiceInterface
         return $message;
     }
 
+    /**
+     * @throws SmarecoSpecificationException
+     * @return string
+     */
     public function getResultEndpoint(): string
     {
-        // TODO: Implement getResultEndpoint() method.
+        $headers = [];
+        $query = http_build_query([
+            'apikey' => (string) $this->apiKey,
+        ]);
+        $request = new Request(
+            'GET',
+            config('smareco.ai.get_result_endpoint') . '?' . $query,
+            $headers
+        );
+        try {
+            $response = $this->client->send($request);
+        } catch (GuzzleException $e) {
+            $message = $this->getErrorMessage($e);
+            throw new SmarecoSpecificationException($message ?? '演算結果URLを取得できませんでした。', $e->getCode(), $e);
+        }
+        $responseBody = json_decode($response->getBody()->getContents(), true);
+        $endpoint = $responseBody['result']['url'] ?? '';
+        if ($endpoint === '') {
+            throw new SmarecoSpecificationException('演算結果URLを取得できませんでした。');
+        }
+        return $endpoint;
     }
 
-    public function result(): void
+    /**
+     * @param string $resultEndpoint
+     * @throws SmarecoSpecificationException
+     * @return string
+     */
+    public function result(string $resultEndpoint): string
     {
-        // TODO: Implement result() method.
+        $headers = [];
+        $request = new Request('PUT', $resultEndpoint, $headers);
+        try {
+            $response = $this->client->send($request);
+        } catch (GuzzleException $e) {
+            $message = $this->getErrorMessage($e);
+            throw new SmarecoSpecificationException($message ?? 'CSVをダウンロードできませんでした。', $e->getCode(), $e);
+        }
+        return $response->getBody()->getContents();
     }
 
     private function getErrorMessage(Throwable $exception): string
