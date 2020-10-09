@@ -154,13 +154,17 @@ class AIService implements AIServiceInterface
 
     private function getErrorMessage(Throwable $exception): string
     {
+        $message = $exception->getMessage();
         if ($exception->getCode() === 400) {
-            $message = $exception->getMessage();
             if (mb_strpos($message, 'api busy')) {
                 return 'ビジー状態です。しばらく経ってからお試しください。';
             }
             if (mb_strpos($message, 'webhook error')) {
                 return 'Webhookエンドポイントが適切ではありません。';
+            }
+        } elseif ($exception->getCode() === 500) {
+            if (mb_strpos($message, 'server error')) {
+                return 'AIサーバーでエラーが発生しました。';
             }
         }
         return '';
