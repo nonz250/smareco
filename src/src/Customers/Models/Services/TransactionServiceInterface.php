@@ -8,4 +8,6 @@ use Smareco\Customers\Models\Collection\TransactionHeadCollection;
 interface TransactionServiceInterface
 {
     public function CreateProductPurchaseCsv(string $contractId, TransactionHeadCollection $transactionHeadCollection): string;
+
+    public function CreateAnalyzedCsv(string $contractId, string $csv): string;
 }

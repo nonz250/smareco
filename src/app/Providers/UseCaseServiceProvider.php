@@ -10,6 +10,8 @@ use Smareco\Customers\Command\UseCases\AnalyzeTransaction\AnalyzeTransaction;
 use Smareco\Customers\Command\UseCases\AnalyzeTransaction\AnalyzeTransactionInterface;
 use Smareco\Customers\Command\UseCases\CreateProductPurchaseCsv\CreateProductPurchaseCsv;
 use Smareco\Customers\Command\UseCases\CreateProductPurchaseCsv\CreateProductPurchaseCsvInterface;
+use Smareco\Customers\Command\UseCases\DownloadAnalyzedCsv\DownloadAnalyzedCsv;
+use Smareco\Customers\Command\UseCases\DownloadAnalyzedCsv\DownloadAnalyzedCsvInterface;
 use Smareco\Customers\Command\UseCases\SyncCustomers\SyncCustomers;
 use Smareco\Customers\Command\UseCases\SyncCustomers\SyncCustomersInterface;
 use Smareco\Customers\Command\UseCases\SyncProducts\SyncProducts;
@@ -47,6 +49,7 @@ class UseCaseServiceProvider extends ServiceProvider
         $this->app->bind(CreateProductPurchaseCsvInterface::class, CreateProductPurchaseCsv::class);
         $this->app->bind(AnalyzeTransactionInterface::class, AnalyzeTransaction::class);
         $this->app->bind(SaveAIProcessHistoryInterface::class, SaveAIProcessHistory::class);
+        $this->app->bind(DownloadAnalyzedCsvInterface::class, DownloadAnalyzedCsv::class);
     }
 
     /**

@@ -19,5 +19,5 @@ interface AIServiceInterface
 
     public function getResultEndpoint(): string;
 
-    public function result(): void;
+    public function result(string $resultEndpoint): string;
 }

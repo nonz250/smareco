@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Apis\Notification;
 
+use App\Adapters\AIProcessHistory\DownloadAnalyzedCsv\DownloadAnalyzedCsvOuput;
 use App\Adapters\AIProcessHistory\SaveAIProcessHistory\SaveAIProcessHistoryOutput;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Notification\AINotificationRequest;
 use Illuminate\Http\JsonResponse;
 use Psr\Log\LoggerInterface;
 use Smareco\AIProcessHistory\Command\UseCases\SaveAIProcessHistory\SaveAIProcessHistoryInterface;
+use Smareco\Customers\Command\UseCases\DownloadAnalyzedCsv\DownloadAnalyzedCsvInterface;
 use Throwable;
 
 class AINotificationAction extends Controller
@@ -17,23 +19,32 @@ class AINotificationAction extends Controller
      * @var LoggerInterface
      */
     private LoggerInterface $logger;
+
     /**
      * @var SaveAIProcessHistoryInterface
      */
     private SaveAIProcessHistoryInterface $saveAIProcessHistory;
 
     /**
+     * @var DownloadAnalyzedCsvInterface
+     */
+    private DownloadAnalyzedCsvInterface $downloadAnalyzedCsv;
+
+    /**
      * AINotificationAction constructor.
      *
      * @param LoggerInterface $logger
      * @param SaveAIProcessHistoryInterface $saveAIProcessHistory
+     * @param DownloadAnalyzedCsvInterface $downloadAnalyzedCsv
      */
     public function __construct(
         LoggerInterface $logger,
-        SaveAIProcessHistoryInterface $saveAIProcessHistory
+        SaveAIProcessHistoryInterface $saveAIProcessHistory,
+        DownloadAnalyzedCsvInterface $downloadAnalyzedCsv
     ) {
         $this->logger = $logger;
         $this->saveAIProcessHistory = $saveAIProcessHistory;
+        $this->downloadAnalyzedCsv = $downloadAnalyzedCsv;
     }
 
     /**
@@ -50,9 +61,16 @@ class AINotificationAction extends Controller
         $this->logger->info(sprintf('契約ID：[%s]', $contractId));
         $this->logger->info($request);
 
-        $response = new SaveAIProcessHistoryOutput();
+        $saveAIProcessHistoryResponse = new SaveAIProcessHistoryOutput();
         try {
-            $this->saveAIProcessHistory->process($request, $response);
+            $this->saveAIProcessHistory->process($request, $saveAIProcessHistoryResponse);
+        } catch (Throwable $e) {
+            throw $e;
+        }
+
+        $response = new DownloadAnalyzedCsvOuput();
+        try {
+            $this->downloadAnalyzedCsv->process($request, $response);
         } catch (Throwable $e) {
             throw $e;
         }
