@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Smareco\AIProcessHistory\Command\UseCases\SaveAIProcessHistory\SaveAIProcessHistory;
+use Smareco\AIProcessHistory\Command\UseCases\SaveAIProcessHistory\SaveAIProcessHistoryInterface;
 use Smareco\Customers\Command\UseCases\AnalyzeTransaction\AnalyzeTransaction;
 use Smareco\Customers\Command\UseCases\AnalyzeTransaction\AnalyzeTransactionInterface;
 use Smareco\Customers\Command\UseCases\CreateProductPurchaseCsv\CreateProductPurchaseCsv;
@@ -44,6 +46,7 @@ class UseCaseServiceProvider extends ServiceProvider
         $this->app->bind(SyncProductsInterface::class, SyncProducts::class);
         $this->app->bind(CreateProductPurchaseCsvInterface::class, CreateProductPurchaseCsv::class);
         $this->app->bind(AnalyzeTransactionInterface::class, AnalyzeTransaction::class);
+        $this->app->bind(SaveAIProcessHistoryInterface::class, SaveAIProcessHistory::class);
     }
 
     /**

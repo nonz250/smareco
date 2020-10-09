@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Smareco\Exceptions\NotFoundException;
 
-class WebhookMiddleware
+class PublicWebhookMiddleware
 {
     /**
      * Handle an incoming request.
@@ -21,24 +21,8 @@ class WebhookMiddleware
     {
         $headerKey = (string) config('smareco.webhook_header.key', '');
         $webhookKey = $request->header($headerKey) ?? $request->get($headerKey) ?? '';
-        $contractId = $request->header('smaregi-contract-id', '') ?? '';
-        $event = $request->header('smaregi-event', '') ?? '';
-        $webhooks = [];
-        foreach (config('smareco.webhooks') as $key => $item) {
-            $webhooks[] = $item;
-        }
-
         if ($webhookKey !== (string) config('smareco.webhook_header.value', '')) {
             throw new NotFoundException('このページはありません。');
-        }
-        if (!$contractId) {
-            throw new NotFoundException('ヘッダー値に契約IDは必須です。');
-        }
-        if (!$event) {
-            throw new NotFoundException('ヘッダー値にイベント名は必須です。');
-        }
-        if (!in_array($event, $webhooks, true)) {
-            throw new NotFoundException('登録されたイベントにないイベントです。');
         }
         return $next($request);
     }

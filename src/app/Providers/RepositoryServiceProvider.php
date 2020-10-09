@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Adapters\AIProcessHistory\Models\Repositories\AIProcessRepository;
 use App\Adapters\Customers\Models\Repositories\CustomerRepository;
 use App\Adapters\Customers\Models\Repositories\ProductRepository;
 use App\Adapters\Customers\Models\Repositories\SyncHistoryRepository;
@@ -12,6 +13,7 @@ use App\Adapters\Shared\Models\Repositories\SmaregiUserInfoRepository;
 use App\Adapters\Shared\Models\Repositories\SmaregiUserTokenRepository;
 use App\Adapters\Shared\Models\Repositories\SyncNecessaryRepository;
 use Illuminate\Support\ServiceProvider;
+use Smareco\AIProcessHistory\Models\Repositories\AIProcessRepositoryInterface;
 use Smareco\Customers\Models\Repositories\CustomerRepositoryInterface;
 use Smareco\Customers\Models\Repositories\ProductRepositoryInterface;
 use Smareco\Customers\Models\Repositories\TransactionRepositoryInterface;
@@ -38,6 +40,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SyncNecessaryRepositoryInterface::class, SyncNecessaryRepository::class);
         $this->app->bind(TransactionRepositoryInterface::class, TransactionRepository::class);
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
+        $this->app->bind(AIProcessRepositoryInterface::class, AIProcessRepository::class);
     }
 
     /**
