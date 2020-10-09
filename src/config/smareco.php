@@ -21,6 +21,8 @@ return [
     ],
     'webhooks' => [
         'customer' => 'pos:categories',
+        'product' => 'pos:products',
+        'transaction' => 'pos:transactions',
     ],
     'providers' => [
         'smaregi' => 'smaregi',

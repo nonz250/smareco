@@ -40,6 +40,16 @@ class SmaregiWebhookRequest extends FormRequest implements SmaregiWebhookInputPo
         return $this->event() === (string) config('smareco.webhooks.customer');
     }
 
+    public function isTransaction(): bool
+    {
+        return $this->event() === (string) config('smareco.webhooks.transaction');
+    }
+
+    public function isProduct(): bool
+    {
+        return $this->event() === (string) config('smareco.webhooks.product');
+    }
+
     public function providerId(): string
     {
         return config('smareco.providers.smaregi');

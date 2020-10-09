@@ -37,6 +37,10 @@ class SmaregiWebhook implements SmaregiWebhookInterface
         $target = new Target(Target::TARGET_CUSTOMER);
         if ($inputPort->isCustomer()) {
             $target = new Target(Target::TARGET_CUSTOMER);
+        } elseif ($inputPort->isTransaction()) {
+            $target = new Target(Target::TARGET_TRANSACTION);
+        } elseif ($inputPort->isProduct()) {
+            $target = new Target(Target::TARGET_PRODUCT);
         }
 
         $body = json_encode($inputPort->body(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);

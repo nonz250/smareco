@@ -7,6 +7,10 @@ interface SmaregiWebhookInputPort
 {
     public function isCustomer(): bool;
 
+    public function isTransaction(): bool;
+
+    public function isProduct(): bool;
+
     public function event(): string;
 
     public function providerId(): string;
