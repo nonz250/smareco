@@ -63,7 +63,7 @@ class AnalyzeTransactionRequest extends FormRequest implements CreateProductPurc
                 'contract_id' => 'sb_skc216v8',
                 config('smareco.webhook_header.key') => config('smareco.webhook_header.value'),
             ]);
-            return 'https://smareco.nozomi.bike/webhook/ai/notification?'. $query;
+            return 'https://smareco.nozomi.bike/webhook/ai/notification?' . $query;
         }
         $query = http_build_query([
             'contract_id' => $this->contractId(),

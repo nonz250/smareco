@@ -56,19 +56,19 @@ class AINotificationAction extends Controller
      */
     public function __invoke(AINotificationRequest $request)
     {
-        $contractId = $request->get('contract_id');
-        $this->logger->info('AI演算終了');
-        $this->logger->info(sprintf('契約ID：[%s]', $contractId));
-        $this->logger->info($request);
-
-        $saveAIProcessHistoryResponse = new SaveAIProcessHistoryOutput();
-        try {
-            $this->saveAIProcessHistory->process($request, $saveAIProcessHistoryResponse);
-        } catch (Throwable $e) {
-            throw $e;
-        }
-
         if ($request->get('text', '') === 'List creation succeeded.') {
+            $contractId = $request->get('contract_id');
+            $this->logger->info('AI演算終了');
+            $this->logger->info(sprintf('契約ID：[%s]', $contractId));
+            $this->logger->info($request);
+
+            $saveAIProcessHistoryResponse = new SaveAIProcessHistoryOutput();
+            try {
+                $this->saveAIProcessHistory->process($request, $saveAIProcessHistoryResponse);
+            } catch (Throwable $e) {
+                throw $e;
+            }
+
             $this->logger->info('AI演算結果取得開始');
             $response = new DownloadAnalyzedCsvOuput();
             try {
