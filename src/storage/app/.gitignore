@@ -1,3 +1,4 @@
-*
-!public/
+csv
+public/*
+!public/images
 !.gitignore
