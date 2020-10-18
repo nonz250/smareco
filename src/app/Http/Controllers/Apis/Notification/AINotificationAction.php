@@ -60,7 +60,7 @@ class AINotificationAction extends Controller
         $this->logger->info('AI演算終了');
         $this->logger->info(sprintf('契約ID：[%s]', $contractId));
         $this->logger->info($request);
-        if ($request->get('text', '') === 'List creation succeeded.') {
+        if ($request->get('text', '') === 'SHUTDOWN instance') {
             $saveAIProcessHistoryResponse = new SaveAIProcessHistoryOutput();
             try {
                 $this->saveAIProcessHistory->process($request, $saveAIProcessHistoryResponse);
