@@ -11,8 +11,7 @@
         :value="csrfToken"
       >
       <div class="row">
-        <div class="col-md-2" />
-        <div class="col-md-8">
+        <div class="col-md-12">
           <h3 class="p-0 mb-0 mx-3">
             ログイン
           </h3>
@@ -35,7 +34,6 @@
             </div>
           </div>
         </div>
-        <div class="col-md-2" />
       </div>
     </form>
   </div>

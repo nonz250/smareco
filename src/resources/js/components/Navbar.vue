@@ -5,7 +5,7 @@
       class="navbar-brand"
     >
       <img
-        src="/safari-pinned-tab.svg"
+        src="/android-chrome-512x512.png"
         width="30"
         height="30"
         class="d-inline-block align-top bg-white"
