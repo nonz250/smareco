@@ -35,5 +35,6 @@ return [
         'analyze_endpoint' => env('AI_HOST') . env('AI_ANALYZE_ENDPOINT'),
         'get_analyze_status_endpoint' => env('AI_HOST') . env('AI_ANALYZE_STATUS_ENDPOINT'),
         'get_result_endpoint' => env('AI_HOST') . env('AI_RESULT_ENDPOINT'),
+        'finish_message' => env('AI_FINISH_MESSAGE'),
     ],
 ];
