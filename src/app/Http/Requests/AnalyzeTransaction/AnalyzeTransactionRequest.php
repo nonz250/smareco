@@ -59,10 +59,15 @@ class AnalyzeTransactionRequest extends FormRequest implements CreateProductPurc
     public function notificationUrl(): string
     {
         if (config('app.env') === 'local') {
-            return 'https://labo.nozomi.bike/api/webhook?contract_id=test';
+            $query = http_build_query([
+                'contract_id' => 'sb_skc216v8',
+                config('smareco.webhook_header.key') => config('smareco.webhook_header.value'),
+            ]);
+            return 'https://smareco.nozomi.bike/webhook/ai/notification?'. $query;
         }
         $query = http_build_query([
             'contract_id' => $this->contractId(),
+            config('smareco.webhook_header.key') => config('smareco.webhook_header.value'),
         ]);
         return (string) config('smareco.ai.notification_url') . '?' . $query;
     }
