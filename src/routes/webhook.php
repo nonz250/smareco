@@ -21,7 +21,7 @@ Route::middleware(PublicWebhookMiddleware::class)
             ->group(static function () {
                 Route::prefix('notification')
                     ->group(static function () {
-                        Route::get('/', AINotificationAction::class);
+                        Route::post('/', AINotificationAction::class);
                     });
             });
     });

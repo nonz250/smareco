@@ -26,9 +26,9 @@ class AINotificationRequest extends FormRequest implements SaveAIProcessHistoryI
     public function rules()
     {
         return [
-            'contract_id' => ['required', 'string'],
-            'username' => ['required', 'string'],
-            'text' => ['required', 'string'],
+            // 'contract_id' => ['required', 'string'],
+            // 'username' => ['required', 'string'],
+            // 'text' => ['required', 'string'],
         ];
     }
 
