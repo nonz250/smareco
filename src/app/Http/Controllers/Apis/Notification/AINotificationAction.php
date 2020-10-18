@@ -68,11 +68,15 @@ class AINotificationAction extends Controller
             throw $e;
         }
 
-        $response = new DownloadAnalyzedCsvOuput();
-        try {
-            $this->downloadAnalyzedCsv->process($request, $response);
-        } catch (Throwable $e) {
-            throw $e;
+        if ($request->get('text', '') === 'List creation succeeded.') {
+            $this->logger->info('AI演算結果取得開始');
+            $response = new DownloadAnalyzedCsvOuput();
+            try {
+                $this->downloadAnalyzedCsv->process($request, $response);
+            } catch (Throwable $e) {
+                throw $e;
+            }
+            $this->logger->info('AI演算結果取得終了');
         }
 
         return response()->json();
