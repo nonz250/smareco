@@ -57,27 +57,10 @@ class TransactionService implements TransactionServiceInterface
 
     public function CreateAnalyzedCsv(string $contractId, string $csv): string
     {
-        $records = [];
-//        foreach ($transactionHeadCollection as $transaction) {
-//            $details = $transaction->details();
-//            /** @var TransactionDetail $detail */
-//            foreach ($details as $detail) {
-//                for ($i = 0; $i < $detail->quantity(); $i++) {
-//                    $record = [
-//                        $transaction->customerId(),
-//                        $detail->productId(),
-//                        $transaction->transactionDatetime()->format('Y-m-d H:i:s'),
-//                    ];
-//                    $records[] = implode(',', $record);
-//                }
-//            }
-//        }
-        $content = implode("\n", $records);
-
         // ファイルを作成
         $filename = Carbon::now()->format('YmdHis') . '.csv';
         $filePath = 'csv/' . $contractId . '/result/' . $filename;
-        if (!Storage::put($filePath, $content, 'private')) {
+        if (!Storage::put($filePath, $csv, 'private')) {
             throw new RuntimeException('CSVの作成に失敗しました。');
         }
 

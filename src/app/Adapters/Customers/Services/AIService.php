@@ -179,7 +179,7 @@ class AIService implements AIServiceInterface
     public function result(string $resultEndpoint): string
     {
         $headers = [];
-        $request = new Request('PUT', $resultEndpoint, $headers);
+        $request = new Request('GET', $resultEndpoint, $headers);
         try {
             $response = $this->client->send($request);
         } catch (GuzzleException $e) {

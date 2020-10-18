@@ -54,7 +54,6 @@ class DownloadAnalyzedCsv implements DownloadAnalyzedCsvInterface
         $resultEndpoint = $this->AIService->getResultEndpoint();
         $csv = $this->AIService->result($resultEndpoint);
         try {
-            $this->logger->info($csv);
             $resultPath = $this->transactionService->CreateAnalyzedCsv($inputPort->contractId(), $csv);
         } catch (Throwable $e) {
             throw new SmarecoSpecificationException($e->getMessage(), 500, $e);
