@@ -25,6 +25,14 @@
         </primary-button>
       </div>
     </div>
+    <br>
+    <br>
+    <heading>直近の分析結果</heading>
+    <small>
+      分析を結果をメールで通知する機能は現在準備中です。しばらくお待ち下さい。<br>
+      定期的にこのページをリロードして最新の分析結果をご覧下さい。
+    </small>
+    <analyzed />
   </div>
 </template>
 
@@ -34,9 +42,10 @@ import Heading from '../atoms/Heading/Heading';
 import SuccessButton from '../atoms/SuccessButton';
 import SyncCustomer from '../src/Customers/UseCases/SyncCustomer';
 import AnalyzeTransaction from '../src/AnalyzeTransaction/UseCases/AnalyzeTransaction';
+import Analyzed from '../components/Analyzed';
 export default {
   name: 'Home',
-  components: {SuccessButton, Heading, PrimaryButton},
+  components: {Analyzed, SuccessButton, Heading, PrimaryButton},
   data() {
     return {
       syncCustomerUseCase: new SyncCustomer(),

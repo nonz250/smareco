@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Apis\Analyze\GetAnalyzedAction;
 use App\Http\Controllers\Apis\AnalyzeTransaction\AnalyzeTransactionAction;
 use App\Http\Controllers\Apis\Customers\SyncCustomerAction;
 use App\Http\Controllers\Apis\Customers\GetCustomersAction;
@@ -39,6 +40,7 @@ Route::middleware(GenerateApiTokenMiddleware::class)
             });
         Route::prefix('analyze')
             ->group(static function () {
+                Route::get('/', GetAnalyzedAction::class);
                 Route::post('/', AnalyzeTransactionAction::class);
             });
     });
