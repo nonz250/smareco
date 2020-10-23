@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Smareco\Customers\Models\Repositories;
 
+use DateTimeInterface;
 use Smareco\Customers\Models\Collection\TransactionDetailCollection;
 use Smareco\Customers\Models\Collection\TransactionHeadCollection;
 use Smareco\Customers\Models\Entities\TransactionHead;
@@ -18,6 +19,8 @@ interface TransactionRepositoryInterface
      * @param string $contractId
      * @param int $page
      * @param int $length
+     * @param ?DateTimeInterface $from
+     * @param ?DateTimeInterface $to
      * @throws SmarecoSpecificationExceptionInterface
      * @return TransactionHeadCollection
      */
@@ -27,6 +30,8 @@ interface TransactionRepositoryInterface
         AccessToken $accessToken,
         string $contractId,
         int $page,
+        ?DateTimeInterface $from,
+        ?DateTimeInterface $to,
         int $length = 1000
     ): TransactionHeadCollection;
 
@@ -36,5 +41,10 @@ interface TransactionRepositoryInterface
      */
     public function save(TransactionHead $transactionHead): void;
 
-    public function findDetailByContractId(string $contractId): TransactionHeadCollection;
+    public function findDetailByContractId(
+        string $providerId,
+        string $contractId,
+        ?DateTimeInterface $from,
+        ?DateTimeInterface $to
+    ): TransactionHeadCollection;
 }

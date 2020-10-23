@@ -5,6 +5,8 @@ namespace App\Http\Requests\Customers;
 
 use App\Traits\GetProviderTrait;
 use App\Traits\GetSmaregiUserInfoTrait;
+use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Foundation\Http\FormRequest;
 use Smareco\Customers\Command\UseCases\SyncCustomers\SyncCustomersInputPort;
 use Smareco\Customers\Command\UseCases\SyncProducts\SyncProductsInputPort;
@@ -55,5 +57,15 @@ class SyncCustomerRequest extends FormRequest implements SyncCustomersInputPort,
     public function providerId(): string
     {
         return $this->getProviderId();
+    }
+
+    public function from(): DateTimeInterface
+    {
+        return Carbon::now()->subMonth();
+    }
+
+    public function to(): DateTimeInterface
+    {
+        return Carbon::now();
     }
 }

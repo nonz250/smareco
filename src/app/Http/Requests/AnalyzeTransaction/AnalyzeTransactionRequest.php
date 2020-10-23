@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\AnalyzeTransaction;
 
 use App\Traits\GetSmaregiUserInfoTrait;
+use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Foundation\Http\FormRequest;
 use Smareco\Customers\Command\UseCases\AnalyzeTransaction\AnalyzeTransactionInputPort;
 use Smareco\Customers\Command\UseCases\CreateProductPurchaseCsv\CreateProductPurchaseCsvInputPort;
@@ -70,5 +72,20 @@ class AnalyzeTransactionRequest extends FormRequest implements CreateProductPurc
             config('smareco.webhook_header.key') => config('smareco.webhook_header.value'),
         ]);
         return (string) config('smareco.ai.notification_url') . '?' . $query;
+    }
+
+    public function providerId(): string
+    {
+        return config('smareco.providers.smaregi');
+    }
+
+    public function from(): DateTimeInterface
+    {
+        return Carbon::now()->subMonth();
+    }
+
+    public function to(): DateTimeInterface
+    {
+        return Carbon::now();
     }
 }

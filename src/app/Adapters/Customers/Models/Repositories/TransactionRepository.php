@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace App\Adapters\Customers\Models\Repositories;
 
+use DateTimeInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
-use Smareco\Customers\Models\Collection\TransactionDetailCollection;
 use Smareco\Customers\Models\Collection\TransactionHeadCollection;
 use Smareco\Customers\Models\Entities\TransactionDetail;
 use Smareco\Customers\Models\Entities\TransactionHead;
@@ -50,17 +49,27 @@ class TransactionRepository implements TransactionRepositoryInterface
         AccessToken $accessToken,
         string $contractId,
         int $page,
+        ?DateTimeInterface $from,
+        ?DateTimeInterface $to,
         int $length = 1000
     ): TransactionHeadCollection {
         $headers = [
             'Authorization' => $tokenType . ' ' . (string) $accessToken,
         ];
 
-        $query = http_build_query([
+        $query = [
             'page' => (int) $page,
             'limit' => (int) $length,
             'customer_code' => (string) $customerCode,
-        ]);
+        ];
+        if ($from) {
+            $query['transaction_date_time-from'] = $from->format('Y-m-d\TH:i:sP');
+        }
+        if ($to) {
+            $query['transaction_date_time-to'] = $to->format('Y-m-d\TH:i:sP');
+        }
+
+        $query = http_build_query($query);
 
         $request = new Request(
             'GET',
@@ -153,12 +162,20 @@ class TransactionRepository implements TransactionRepositoryInterface
         }
     }
 
-    public function findDetailByContractId(string $contractId): TransactionHeadCollection
-    {
-        $transactions = $this->transactionHead->newQuery()
+    public function findDetailByContractId(
+        string $providerId,
+        string $contractId,
+        ?DateTimeInterface $from,
+        ?DateTimeInterface $to
+    ): TransactionHeadCollection {
+        $query = $this->transactionHead->newQuery()
             ->with(['transaction_detail'])
-            ->where('contract_id', $contractId)
-            ->get();
+            ->where('provider_id', $providerId)
+            ->where('contract_id', $contractId);
+        if ($from && $to) {
+            $query = $query->whereBetween('transaction_datetime', [$from, $to]);
+        }
+        $transactions = $query->get();
         return TransactionHeadCollection::fromArray($transactions->toArray());
     }
 }

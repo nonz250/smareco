@@ -82,7 +82,9 @@ class SyncTransaction implements SyncTransactionInterface
                     $inputPort->tokenType(),
                     $inputPort->accessToken(),
                     $inputPort->contractId(),
-                    $page
+                    $page,
+                    $inputPort->from(),
+                    $inputPort->to(),
                 );
                 if ($transactionCollection->isEmpty()) {
                     break;

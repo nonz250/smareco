@@ -43,7 +43,12 @@ class CreateProductPurchaseCsv implements CreateProductPurchaseCsvInterface
         CreateProductPurchaseCsvInputPort $inputPort,
         CreateProductPurchaseCsvOutputPort $outputPort
     ): void {
-        $transactionDetailCollection = $this->transactionRepository->findDetailByContractId($inputPort->contractId());
+        $transactionDetailCollection = $this->transactionRepository->findDetailByContractId(
+            $inputPort->providerId(),
+            $inputPort->contractId(),
+            $inputPort->from(),
+            $inputPort->to(),
+        );
         try {
             $path = $this->transactionService->CreateProductPurchaseCsv(
                 $inputPort->contractId(),
