@@ -39,6 +39,9 @@ class GetAnalyzed implements GetAnalyzedQuery
     public function findLatestByContractId(string $providerId, string $contractId)
     {
         $files = Storage::files('csv/' . $contractId . '/result');
+        if (count($files) === 0) {
+            return [];
+        }
         $latestPath = storage_path('app/' . Arr::last(Arr::sort($files)));
         $handle = fopen($latestPath, 'r');
         if ($handle === false) {
