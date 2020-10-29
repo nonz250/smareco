@@ -46,13 +46,15 @@ class TransactionDetailCollection extends Collection
     {
         $array = [];
         foreach ($items as $item) {
-            $array[] = new TransactionDetail(
-                (string) $item['productId'],
-                (string) $item['productCode'],
-                (string) $item['productName'],
-                (int) $item['price'],
-                (int) $item['quantity'],
-            );
+            if ($item['productId']) {
+                $array[] = new TransactionDetail(
+                    (string) $item['productId'],
+                    (string) $item['productCode'],
+                    (string) $item['productName'],
+                    (int) $item['price'],
+                    (int) $item['quantity'],
+                );
+            }
         }
         return new self($array);
     }
